@@ -1,0 +1,7 @@
+{
+  "dbConfig": {
+    "host": "localhost",
+    "name": "hrms",
+    "password": "1234"
+  }
+}

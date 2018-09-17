@@ -3,5 +3,7 @@
     "host": "localhost",
     "name": "hrms",
     "password": "1234"
-  }
+  },
+  "AUTH_SECRET": "VX-HRMS - 9009988923khsdouuygsbmkasdsadsa",
+  "SALT_ROUNDS": "12"
 }

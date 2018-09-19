@@ -4,7 +4,7 @@ module.exports = {
         if (bearerHeader) {
             const token = bearerHeader.split(" ")[1];
             try {
-                const decoded = jwt.verify(token, config.get("AUTH_SECRET"));
+                const decoded = jwt.verify(token, process.env.AUTH_SECRET);
                 if (decoded) {
                     next();
                 } else {
@@ -12,11 +12,11 @@ module.exports = {
                 }
             } catch(err) {
                 // err
-                res.json({err: "Authentication failed!", status: 402})
+                res.json({err: "Invalid Token", status: 402})
             }
         } else {
             // response error with status 400;
-            res.json({err: "Authentication failed!", status: 403})
+            res.json({err: "You need to be logged in to make this request. No token found.", status: 403})
         }
     }
 }

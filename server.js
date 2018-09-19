@@ -1,14 +1,16 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
-const config = require('config');
 
-const dbConfig = config.get('dbConfig');
-
+const dotenv = require("dotenv");
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('hrms', 'root', '1234', {
-    host: 'localhost',
+
+dotenv.config();
+
+const {DB_NAME, DB_USERNAME, DB_PASSWORD, DB_HOST} = process.env;
+
+const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+    host: DB_HOST,
     dialect: 'mysql',
     operatorsAliases: false,
 });

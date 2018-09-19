@@ -1,11 +1,10 @@
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
-const config = require("config");
 const bcrypt = require("bcrypt");
-const auth_secret = config.get("AUTH_SECRET");
 const middlewares = require("../middlewares/auth");
 
 module.exports = (sequelize) => {
+    const auth_secret = process.env.AUTH_SECRET;
     const User = require("../models/user")(sequelize);
     router.get("/", middlewares.verifyToken, function (req, res) {
         res.send("API is up and running.")
@@ -24,7 +23,7 @@ module.exports = (sequelize) => {
                 const token = jwt.sign({user}, auth_secret);
                 res.json({status: 200, token})
             } else {
-                res.json({status: 402, message: "Invalid credentials"});
+                res.json({status: 402, message: "Invalid credentials."});
             }
         }
     });
@@ -36,12 +35,12 @@ module.exports = (sequelize) => {
         if (user) {
             res.json({status: 402, message: "User already exist."})
         } else {
-            const salt = bcrypt.genSaltSync(parseInt(config.get("SALT_ROUNDS")));
+            const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
             const hash = bcrypt.hashSync(password, salt);
             const newUser = await User.create({
                 username, password: hash, firstName, lastName
             })
-            if (!newUser) res.json({status: 500, message: "Cannot create new user."});
+            if (!newUser) res.json({status: 500, message: "Cannot create new user. Internal server error."});
             else res.json({status: 200, user: newUser});
         }
     })

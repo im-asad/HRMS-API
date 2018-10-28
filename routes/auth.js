@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt-nodejs");
 const middlewares = require("../middlewares/auth");
 
 module.exports = (sequelize) => {
@@ -15,10 +15,11 @@ module.exports = (sequelize) => {
         const user = await User.findOne({where: {username}})
 
         // compare password
+        console.log("LOGIN REQUEST");
         if (!user) {
             res.json({status: 402, message: "User doesn't exist."})
         } else {
-            const match = await bcrypt.compare(password, user.dataValues.password);
+            const match = bcrypt.compareSync(password, user.dataValues.password);
             if (match) {
                 const token = jwt.sign({user}, auth_secret);
                 res.json({status: 200, token})

@@ -3,7 +3,7 @@ module.exports = (models) => ({
         try {
          console.log("models", models);
          let records = await models[model].findAll({ include: [{ all: true }]});
-         return records;
+         return records.map(r => r.dataValues);
         }
         catch (e) {
             console.log("Could not read model", model);

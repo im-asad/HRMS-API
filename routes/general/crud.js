@@ -5,14 +5,10 @@ module.exports = (sequelize) => {
 
 
     const CRUD = require('../../controllers/crud/')(sequelize);
-    console.log("==CRUD==")
-    console.log(CRUD.create.create);
 
-    router.post("/test", (req,res) =>{
-        console.log(JSON.parse(req.body.data));
-        let data = JSON.parse(req.body.data);
-        CRUD.create.create("City", data);
-        return res.sendStatus(200);
+    router.post("/test", async (req,res) =>{
+        let records = await CRUD.read.readAll("City");
+        if (records !== -1){res.json(records);}
     })
 
     router.post("/CRUD/:module/:entity/:operation", async (req,res) => {
@@ -24,11 +20,16 @@ module.exports = (sequelize) => {
         const entity = req.params.entity;
         const operation = req.params.operation;
 
+        // TO DO: check if entity is valid
+
         // TO DO: use CRUD controller 
         let status;
         switch (operation){
             case "create":
                 // create entity
+                if (!(req.body.data)){
+                    return res.sendStatus(400);
+                }
                 status = await CRUD.create.create(entity, req.body.data)
                 if (status === 1){
                     return res.sendStatus(200);
@@ -40,7 +41,10 @@ module.exports = (sequelize) => {
             
             case "delete":
                 // delete entity
-                status = await CRUD.remove.remove(entity, req.body.data);
+                if (!(req.body.id) || !(req.body.id_key)){
+                    return res.sendStatus(400);
+                }
+                status = await CRUD.remove.remove(entity, req.body.id, req.body.id_key);
                 if (status === 1){
                     return res.sendStatus(200);
                 } else {

@@ -1,10 +1,10 @@
 module.exports = (models) => ({
-    remove: async (model, id)=> {
+    remove: async (model, id, id_key)=> {
         try {
+         whereClause = {};
+         whereClause[id_key] = id;
          await models[model].destroy({
-             where: {
-                 id: id
-             }
+             where: whereClause
          });
          return 1;
         }

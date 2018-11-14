@@ -12,6 +12,6 @@ module.exports = (sequelize) => ({
     Qualification: require("./qualification.js")(sequelize),
     QualificationLevel: require("./qualificationLevel.js")(sequelize),
     Status: require("./status.js")(sequelize),
-    subDepartment: require("./subDepartment.js")(sequelize),
-    subLeavingReason: require("./subLeavingReason.js")(sequelize)
+    SubDepartment: require("./subDepartment.js")(sequelize),
+    SubLeavingReason: require("./subLeavingReason.js")(sequelize)
 });

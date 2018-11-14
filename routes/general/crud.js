@@ -27,10 +27,12 @@ module.exports = (sequelize) => {
         switch (operation){
             case "create":
                 // create entity
+                console.log("===CREATING===");
+                console.log(req.body.data);
                 if (!(req.body.data)){
                     return res.sendStatus(400);
                 }
-                status = await CRUD.create.create(entity, req.body.data)
+                status = await CRUD.create.create(entity, JSON.parse(req.body.data));
                 if (status === 1){
                     return res.sendStatus(200);
                 }
@@ -53,8 +55,9 @@ module.exports = (sequelize) => {
                 break;
             
             case "update":
+                console.log("===UPDATING===");
                 // update entity
-                status = await CRUD.update.update(entity, req.body.data);
+                status = await CRUD.update.update(entity,req.body.id, req.body.id_key, JSON.parse(req.body.data));
                 if (status === 1){
                     return res.sendStatus(200);
                 } else {
@@ -63,10 +66,13 @@ module.exports = (sequelize) => {
                 break;
             
             case "read":
-                // read entity
+                let records = await CRUD.read.readAll(entity);
+                if (records !== -1){return res.json(records);}
+                else {return res.sendStatus(400);}
                 break;
             default:
                 // return UnsupportedOperationError
+                return res.sendStatus(400);
 
         }
         

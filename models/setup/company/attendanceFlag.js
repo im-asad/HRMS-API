@@ -4,8 +4,7 @@ module.exports = (sequelize) => {
     return sequelize.define("attendanceFlag", {
         attendanceFlag_id: {
             type:Sequelize.STRING,
-            primaryKey:true,
-            autoIncrement: true
+            primaryKey:true
         },
         attendanceFlag: {
             type: Sequelize.STRING

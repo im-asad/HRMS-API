@@ -4,8 +4,7 @@ module.exports = (sequelize) => {
     return sequelize.define("holiday", {
         holiday: {
             type:Sequelize.STRING,
-            primaryKey:true,
-            autoIncrement: true
+            primaryKey:true
         },
         holiday_date: {
             type: Sequelize.STRING

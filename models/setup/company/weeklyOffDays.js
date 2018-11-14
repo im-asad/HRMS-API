@@ -4,8 +4,7 @@ module.exports = (sequelize) => {
     return sequelize.define("weeklyOffDays", {
         day: {
             type:Sequelize.STRING,
-            primaryKey:true,
-            autoIncrement: true
+            primaryKey:true
         },
         off: {
             type: Sequelize.BOOLEAN

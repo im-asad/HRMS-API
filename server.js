@@ -30,8 +30,7 @@ app.use(bodyParser.json())
 app.use(auth_routes);
 app.use(crud_routes);
 
-const User = require("./models/user")(sequelize);
-const City = require("./models/setup/employee/city")(sequelize)
+require("./models/relationships.js")(sequelize);
 sequelize.sync();
 
 

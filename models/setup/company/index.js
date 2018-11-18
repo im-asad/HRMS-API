@@ -1,6 +1,6 @@
 module.exports = (sequelize) => ({
-    AttendanceFlag: require('./attendanceFlag.js')(sequelize),
-    Holiday: require('./holidays.js')(sequelize),
-    Shift: require('./shift.js')(sequelize),
-    WeeklyOffDays: require('./weeklyOffDays.js')(sequelize)
+    AttendanceFlag: sequelize.import('./attendanceFlag.js'),
+    Holiday: sequelize.import('./holidays.js'),
+    Shift: sequelize.import('./shift.js'),
+    WeeklyOffDays: sequelize.import('./weeklyOffDays.js')
 });

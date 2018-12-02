@@ -30,9 +30,8 @@ app.use(bodyParser.json())
 app.use(auth_routes);
 app.use(crud_routes);
 
-
+require("./models/relationships.js")(sequelize)
 sequelize.sync();
-setTimeout(()=>{require("./models/relationships.js")(sequelize)}, 5000);
 
 
 

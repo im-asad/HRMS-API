@@ -1,5 +1,5 @@
-module.exports = (sequelize) => {
-    const models = require('./index.js')(sequelize);
+// module.exports = (sequelize) => {
+//     const models = require('./index.js')(sequelize);
 
     // models.LeavingReason.hasOne(models.SubLeavingReason, {foreignKey: 'leavingReason_id'});
     // console.log("ESTABLISHING RELATIONSHIPS");
@@ -23,5 +23,15 @@ module.exports = (sequelize) => {
     // models.Employee.belongsTo(models.LeavingReason, {foreignKey: 'leavingReason_id'});
     // models.Employee.belongsTo(models.SubLeavingReason, {foreignKey: 'subLeavingReason_id'});
     // models.Employee.belongsTo(models.Employee, {foreignKey: 'approver_id'});
-    return models;
+//     return models;
+// }
+
+module.exports = (sequelize) => {
+    const models = require('./index.js')(sequelize);
+    console.log("=== CREATING RELATIONSHIPS ===");
+    Object.keys(models).forEach((model) => {
+        if ('associate' in models[model]) {
+            models[model].associate(models);
+        }
+    });
 }

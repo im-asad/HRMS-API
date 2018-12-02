@@ -11,9 +11,7 @@ module.exports = (sequelize) => {
             type: Sequelize.STRING
         }
     })
-    console.log("====== SUBLEAVINGREASON =====")
     SubLeavingReason.associate = function(models) {
-        console.log("==== CREATING RELATIONSHIP ====");
         SubLeavingReason.belongsTo(models.LeavingReason, {foreignKey: 'leavingReason_id'});
     }
     return SubLeavingReason

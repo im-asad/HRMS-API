@@ -3,33 +3,31 @@ const Sequelize = require("sequelize");
 module.exports = (sequelize) => {
     const Employee = sequelize.define("employee", {
 
+        username: {
+            type: Sequelize.STRING
+        },
+        password: {
+            type: Sequelize.STRING
+        },
         employee_name: {
             type: Sequelize.STRING
         },
-
         machineCode: {
             type: Sequelize.STRING,
             primaryKey: true,
         },
-
         employee_country: {
             type: Sequelize.STRING
         },
-
         maritalStatus: {
             type: Sequelize.STRING
         },
-
         gender: {
             type: Sequelize.STRING
         },
-
-
         birthDate: {
             type: Sequelize.DATE
         },
-
-
         CNIC: {
             type: Sequelize.STRING
         },

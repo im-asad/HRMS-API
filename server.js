@@ -52,10 +52,11 @@ const employee_routes = require("./routes/employee")(sequelize, transporter)
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
 app.use(bodyParser.json())
 app.use(auth_routes);
 app.use(crud_routes);
-app.use(employee_routes);
+app.use("/employee", employee_routes);
 
 require("./models/relationships.js")(sequelize)
 sequelize.sync();

@@ -1,31 +1,29 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize')
 
-module.exports = (sequelize) => {
-    return sequelize.define("attendanceFlag", {
-        attendanceFlag_id: {
-            type:Sequelize.STRING,
-            primaryKey:true
-        },
-        attendanceFlag: {
-            type: Sequelize.STRING
-        },
+module.exports = sequelize => {
+	return sequelize.define('attendanceFlag', {
+		attendanceFlag_id: {
+			type: Sequelize.STRING,
+			primaryKey: true,
+		},
+		attendanceFlag: {
+			type: Sequelize.STRING,
+		},
 
-        attendanceFlag_category: {
-            type:Sequelize.STRING
-        },
+		attendanceFlagCategory: {
+			type: Sequelize.STRING,
+		},
 
-        effectBy: {
-            type: Sequelize.STRING
-        },
+		effectBy: {
+			type: Sequelize.STRING,
+		},
 
-        attendanceFlag_type: {
-            type: Sequelize.STRING
-        },
+		attendanceFlagType: {
+			type: Sequelize.STRING,
+		},
 
-        attendanceFlag_value: {
-            type: Sequelize.FLOAT
-        }
-
-
-    })
+		attendanceFlagValue: {
+			type: Sequelize.FLOAT,
+		},
+	})
 }

@@ -1,19 +1,19 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize')
 
-module.exports = (sequelize) => {
-    return sequelize.define("branch", {
-        branch_id: {
-            type:Sequelize.INTEGER,
-            primaryKey:true,
-            autoIncrement: true
-        },
+module.exports = sequelize => {
+	return sequelize.define('branch', {
+		branch_id: {
+			type: Sequelize.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 
-        branch: {
-            type: Sequelize.STRING
-        },
+		branch: {
+			type: Sequelize.STRING,
+		},
 
-        branch_prefix: {
-            type: Sequelize.STRING
-        }
-    })
+		branch_prefix: {
+			type: Sequelize.STRING,
+		},
+	})
 }

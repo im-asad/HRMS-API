@@ -1,19 +1,17 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize')
 
-module.exports = (sequelize) => {
-    return sequelize.define("holiday", {
-        holiday: {
-            type:Sequelize.STRING,
-            primaryKey:true
-        },
-        holiday_date: {
-            type: Sequelize.STRING
-        },
+module.exports = sequelize => {
+	return sequelize.define('holiday', {
+		holiday: {
+			type: Sequelize.STRING,
+			primaryKey: true,
+		},
+		holidayDate: {
+			type: Sequelize.STRING,
+		},
 
-        holiday_remarks: {
-            type:Sequelize.STRING
-        }
-
-
-    })
+		holidayRemarks: {
+			type: Sequelize.STRING,
+		},
+	})
 }

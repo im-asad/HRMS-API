@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const Sequelize = require('sequelize');
 
-
 dotenv.config();
 
 const {
@@ -40,13 +39,7 @@ app.use(crud_routes);
 require("./models/relationships.js")(sequelize)
 sequelize.sync();
 
-
-
-
-
-
 // middleware for protected routes
-
 app.listen(2200, () => {
     console.log("API Server Running.")
 });

@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-
+var cloudinary = require('cloudinary');
 const dotenv = require("dotenv");
 const Sequelize = require('sequelize');
 
@@ -21,7 +21,10 @@ const {
     DB_NAME,
     DB_USERNAME,
     DB_PASSWORD,
-    DB_HOST
+    DB_HOST,
+    CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET,
 } = process.env;
 
 const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
@@ -36,6 +39,11 @@ app.use(function (req, res, next) {
     next();
 });
 
+cloudinary.config({
+    cloud_name: CLOUDINARY_CLOUD_NAME,
+    api_key: CLOUDINARY_API_KEY,
+    api_secret: CLOUDINARY_API_SECRET
+});
 
 // importing routes
 const auth_routes = require("./routes/auth")(sequelize);

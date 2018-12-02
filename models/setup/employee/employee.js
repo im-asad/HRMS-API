@@ -48,10 +48,6 @@ module.exports = (sequelize) => {
             type: Sequelize.STRING
         },
 
-        emergencyNumber: {
-            type: Sequelize.STRING
-        },
-
         appointmentDate: {
             type: Sequelize.STRING
         },
@@ -115,7 +111,7 @@ module.exports = (sequelize) => {
             foreignKey: 'subLeavingReason_id'
         });
         Employee.belongsTo(models.Employee, {
-            foreignKey: 'approver_id'
+            foreignKey: 'approver_id', as: 'approver'
         });
     }
 

@@ -3,10 +3,17 @@ const moment = require("moment");
 
 module.exports = (sequelize, transporter) => {
 
-    const models = require("../../models");
+    const models = require("../../models")(sequelize);
     const Employee = models.Employee;
 
 
+    /* Get employee names with machineCodes */
+    router.get("/employee-names", async (req, res) => {
+        const employees = await Employee.findAll({
+            attributes: ['employee_name', 'machineCode']
+        });
+        res.json({employees})
+    })
     router.get("/birthdays", async (req, res) => {
         let employees = await Employee.findAll({
             where: {
@@ -93,6 +100,7 @@ module.exports = (sequelize, transporter) => {
             });
             return res.json(empData.dataValues);
         } catch (e) {
+            console.log(e);
             console.log("ERROR FETCHING PROFILE");
             return res.sendStatus(400);
         }

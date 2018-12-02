@@ -1,14 +1,18 @@
 module.exports = (models) => ({
-    readAll: async (model)=> {
+    readAll: async (model) => {
         try {
-         let records = await models[model].findAll({ include: [models.LeavingReason]});
+            let records = await models[model].findAll({
+                include: [models.LeavingReason]
+            });
 
-         return records.map(r => {console.log(r); return r.dataValues});
-        }
-        catch (e) {
+            return records.map(r => {
+                console.log(r);
+                return r.dataValues
+            });
+        } catch (e) {
             console.log("Could not read model", model);
             console.log(e);
             return -1;
         }
-    } 
- });
+    }
+});

@@ -7,4 +7,3 @@ module.exports = (sequelize) => {
     const models = Object.assign({}, employeeModels, companyModels, workflowModels);
     return models;
 }
-

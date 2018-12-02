@@ -1,16 +1,16 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    const Department = define("department", {
+    const Department = sequelize.define("department", {
         department_id: {
-            type:Sequelize.INTEGER,
-            primaryKey:true,
+            type: Sequelize.INTEGER,
+            primaryKey: true,
             autoIncrement: true
         },
         department: {
             type: Sequelize.STRING
         },
-        
+
         costCenterCode: {
             type: Sequelize.STRING
         },
@@ -24,8 +24,10 @@ module.exports = (sequelize) => {
         }
     })
 
-    Department.associate = function(models){
-        Department.belongsTo(models.WorkflowGroup({foreign_key: workflowgroup_id}));
+    Department.associate = function (models) {
+        Department.belongsTo(models.WorkflowGroup, {
+            foreign_key: "workflowgroup_id"
+        });
     }
     return Department;
 }

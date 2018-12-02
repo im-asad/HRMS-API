@@ -1,16 +1,14 @@
 module.exports = (models) => ({
-    update: async (model, id, id_key,newData)=> {
+    update: async (model, id, id_key, newData) => {
         whereClause = {};
         whereClause[id_key] = id;
         try {
-            await models[model].update(newData,{
+            await models[model].update(newData, {
                 where: whereClause
             });
             return 1;
-        }
-        
-        catch(e){
+        } catch (e) {
             return -1;
         }
-    } 
- });
+    }
+});

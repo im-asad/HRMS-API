@@ -50,6 +50,10 @@ module.exports = (sequelize) => {
             type: Sequelize.STRING
         },
 
+        emergencyNumber: {
+            type: Sequelize.STRING
+        },
+
         appointmentDate: {
             type: Sequelize.STRING
         },

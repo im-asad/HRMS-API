@@ -7,6 +7,16 @@ const Sequelize = require('sequelize');
 
 dotenv.config();
 
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'nurturebot.mailer@gmail.com',
+        pass: 'nurturebot7412'
+    }
+});
+
 const {
     DB_NAME,
     DB_USERNAME,
@@ -26,15 +36,18 @@ app.use(function (req, res, next) {
     next();
 });
 
+
 // importing routes
 const auth_routes = require("./routes/auth")(sequelize);
 const crud_routes = require("./routes/general/crud")(sequelize);
+const employee_routes = require("./routes/employee")(sequelize, transport)
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json())
 app.use(auth_routes);
 app.use(crud_routes);
+app.use(employee_routes);
 
 require("./models/relationships.js")(sequelize)
 sequelize.sync();

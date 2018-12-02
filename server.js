@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
 // importing routes
 const auth_routes = require("./routes/auth")(sequelize);
 const crud_routes = require("./routes/general/crud")(sequelize);
-const employee_routes = require("./routes/employee")(sequelize, transport)
+const employee_routes = require("./routes/employee")(sequelize, transporter)
 app.use(bodyParser.urlencoded({
     extended: true
 }));

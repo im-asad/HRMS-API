@@ -81,7 +81,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(values);
     })
 
-    router.get("/profile/:code", (req, res) => {
+    router.get("/profile/:code", async (req, res) => {
         try {
             let empData = await Employee.findOne({
                 where: {

@@ -47,10 +47,6 @@ module.exports = sequelize => {
 			type: Sequelize.STRING,
 		},
 
-		emergencyNumber: {
-			type: Sequelize.STRING,
-		},
-
 		appointmentDate: {
 			type: Sequelize.STRING,
 		},
@@ -77,9 +73,6 @@ module.exports = sequelize => {
 		})
 		Employee.belongsTo(models.Department, {
 			foreignKey: 'department_id',
-		})
-		Employee.belongsTo(models.Group, {
-			foreignKey: 'group_id',
 		})
 		Employee.belongsTo(models.EmployeeCategory, {
 			foreignKey: 'employeeCategory_id',

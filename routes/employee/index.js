@@ -146,7 +146,8 @@ module.exports = (sequelize, transporter) => {
 					shift_id: createdShift.shift_id,
 					from: shift.from,
 					to: shift.to,
-					attendanceFlag_id: shift.attendanceFlag,
+					shiftType: shift.shiftType,
+					attendanceFlag_id: shift.attendanceFlag_id,
 				})
 			})
 		})

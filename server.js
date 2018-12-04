@@ -58,7 +58,7 @@ app.use(
 app.use(bodyParser.json())
 app.use(auth_routes)
 app.use(crud_routes)
-app.use('CRUD/employee', employee_routes)
+app.use('/employee', employee_routes)
 
 require('./models/relationships.js')(sequelize)
 sequelize.sync()

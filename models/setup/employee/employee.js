@@ -101,9 +101,9 @@ module.exports = sequelize => {
 		Employee.belongsTo(models.SubLeavingReason, {
 			foreignKey: 'subLeavingReason_id',
 		})
-		Employee.belongsTo(models.Employee, {
-			foreignKey: 'approver_id',
-		})
+		// Employee.belongsTo(models.Employee, {
+		// 	foreignKey: 'approver_id',
+		// })
 	}
 
 	return Employee

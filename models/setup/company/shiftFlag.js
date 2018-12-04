@@ -25,10 +25,14 @@ module.exports = (sequelize) => {
 
     ShiftFlag.associate = function (models) {
         ShiftFlag.belongsTo(models.Shift, {
-            foreignKey: "shift_id"
+            foreignKey: "shift_id",
+            onDelete: "CASCADE",
+            hook: true,
         });
         ShiftFlag.belongsTo(models.AttendanceFlag, {
-            foreignKey: "attendanceFlag_id"
+            foreignKey: "attendanceFlag_id",
+            onDelete: "CASCADE",
+            hook: true,
         })
     }
 

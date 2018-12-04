@@ -131,6 +131,7 @@ module.exports = (sequelize, transporter) => {
 
     router.post('/shifts', async (req, res) => {
         console.log("Creating shift");
+        console.log(req.body);
         let obj = req.body.data;
         let shiftDetails = obj.shiftDetails;
         delete obj['shiftDetails'];

@@ -173,8 +173,6 @@ module.exports = (sequelize, transporter) => {
             })
         })
         return res.sendStatus(200);
-        // delete all entries of this shift in ShiftFlag and recreate them
     })
-
     return router
 }

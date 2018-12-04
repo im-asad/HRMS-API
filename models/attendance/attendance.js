@@ -1,31 +1,15 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("usergroup", {
+    const Attendance = sequelize.define("usergroup", {
         attendance_id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
 
-        scheduledInDateTime: {
+        date: {
             type: Sequelize.DATE
-        },
-
-        scheduledOutDateTime: {
-            type: Sequelize.DATE
-        },
-
-        inDateTime: {
-            type: Sequelize.DATE
-        },
-
-        outDateTime: {
-            type: Sequelize.DATE
-        },
-
-        day: {
-            type: Sequelize.STRING
         },
 
         status: {
@@ -34,8 +18,33 @@ module.exports = (sequelize) => {
 
         leave: {
             type: Sequelize.BOOLEAN
+        },
+
+        actualInTime: {
+            type: Sequelize.TIME
+        },
+
+        actualOutTime: {
+            type: Sequeslize.TIME
         }
 
-
     })
+
+    Attendance.associate = function (models) {
+        Attendance.belongsTo(models.Employee, {
+            foreignKey: "machineCode",
+            onDelete: "CASCADE",
+            hook: true
+        });
+
+        Attendance.belongsTo(models.Shift, {
+            foreignKey: "shift_id",
+            onDelete: "CASCADE",
+            hook: true
+        })
+    }
+
+
+
+
 }

@@ -18,10 +18,14 @@ module.exports = (sequelize) => {
 
     EmployeeShift.associate = function (models) {
         EmployeeShift.belongsTo(models.Shift, {
-            foreignKey: "shift_id"
+            foreignKey: "shift_id",
+            onDelete: 'CASCADE',
+            hooks: true
         });
         EmployeeShift.belongsTo(models.Employee, {
-            foreignKey: "machineCode"
+            foreignKey: "machineCode",
+            onDelete: 'CASCADE',
+            hooks: true
         });
 
     }

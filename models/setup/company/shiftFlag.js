@@ -14,6 +14,10 @@ module.exports = (sequelize) => {
 
         to: {
             type: Sequelize.Time
+        },
+        
+        shiftType: {
+            type: Sequelize.STRING
         }
     })
 

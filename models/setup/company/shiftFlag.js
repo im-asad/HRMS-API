@@ -9,11 +9,11 @@ module.exports = (sequelize) => {
         },
 
         from: {
-            type: Sequelize.Time
+            type: Sequelize.TIME
         },
 
         to: {
-            type: Sequelize.Time
+            type: Sequelize.TIME
         },
         
         shiftType: {

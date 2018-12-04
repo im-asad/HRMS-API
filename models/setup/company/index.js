@@ -3,4 +3,5 @@ module.exports = sequelize => ({
 	Holiday: sequelize.import('./holidays.js'),
 	Shift: sequelize.import('./shift.js'),
 	WeeklyOffDays: sequelize.import('./weeklyOffDays.js'),
+	ShiftFlag: sequelize.import('./shiftFlag.js')
 })

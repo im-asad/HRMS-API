@@ -130,11 +130,14 @@ module.exports = (sequelize, transporter) => {
     })
 
     router.post('/shifts', async (req, res) => {
+        console.log("Creating shift");
         let obj = req.body.data;
         let shiftDetails = obj.shiftDetails;
         delete obj['shiftDetails'];
         await models.Shift.create(obj).then(createdShift => {
+            console.log("=== SHIFT CREATED ===");
             shiftDetails.forEach(shift => {
+                console.log("=== CREATING SHIFT FLAG ===");
                 models.ShiftFlag.create({
                     shift_id: createdShift.shift_id,
                     from: shift.from,
@@ -173,8 +176,6 @@ module.exports = (sequelize, transporter) => {
             })
         })
         return res.sendStatus(200);
-        // delete all entries of this shift in ShiftFlag and recreate them
     })
-
     return router
 }

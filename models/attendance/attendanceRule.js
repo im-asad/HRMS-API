@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("attendancerule", {
+    const AttendanceRule = sequelize.define("attendancerule", {
         attendancerule_id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -24,4 +24,12 @@ module.exports = (sequelize) => {
         }
 
     })
+
+    AttendanceRule.associate = function (models) {
+        AttendanceRule.belongsTo(models.AttendanceFlag, {
+            foreignKey: "attendanceFlag_id",
+            onDelete: 'CASCADE',
+            hooks: true
+        })
+    }
 }

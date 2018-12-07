@@ -4,13 +4,6 @@ module.exports = sequelize => {
 	const CRUD = require('../../controllers/crud/')(sequelize)
 	const models = require("../../models/")(sequelize);
 
-	router.post('/test', async (req, res) => {
-		let records = await CRUD.read.readAll('City')
-		if (records !== -1) {
-			res.json(records)
-		}
-	})
-
 	router.post('/CRUD/:module/:entity/:operation', async (req, res) => {
 		// TO DO: check permissions
 

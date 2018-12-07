@@ -155,7 +155,7 @@ module.exports = (sequelize, transporter) => {
 		return res.sendStatus(200)
 	})
 
-	router.put('/shifts/update', async (req, res) => {
+	router.post('/shifts/update', async (req, res) => {
 		let obj = req.body.data
 		let shiftDetails = obj.shiftDetails
 		delete obj['shiftDetails']
@@ -181,36 +181,38 @@ module.exports = (sequelize, transporter) => {
 			})
 		})
 		return res.sendStatus(200)
-    })
-    
-    router.get("/shifts/read", async (req,res)=>{
-        sequelize.query("SELECT * FROM shifts INNER JOIN shiftFlags USING (shift_id) ORDER BY shift_id ", { type: sequelize.QueryTypes.SELECT}).then(shifts=>{
-			let response = [];
-			let prevId = -1;
-			shifts.forEach(shift=>{
-				if (prevId !== shift.shift_id){
-					response.push({
-						shift_id: shift.shift_id,
-						shiftTitle: shift.shiftTitle,
-						shiftCode: shift.shiftCode,
-						shiftStartingTime: shift.shiftStartingTime,
-						shiftEndingTime: shift.shiftEndingTime,
-						shiftGraceTime: shift.shiftGraceTime,
-						shiftDetails: []
-					});
-				}
-				response[response.length-1].shiftDetails.push({
-					attendanceFlag_id: shift.attendanceFlag_id,
-					from: shift.from,
-					to: shift.to,
-					shiftType: shift.shiftType
-				})
-				prevId = shift.shift_id;
+	})
+
+	router.post('/shifts/read', async (req, res) => {
+		sequelize
+			.query('SELECT * FROM shifts INNER JOIN shiftFlags USING (shift_id) ORDER BY shift_id ', {
+				type: sequelize.QueryTypes.SELECT,
 			})
-			return res.json(response);
-		})
-		
-		
-    })
+			.then(shifts => {
+				let response = []
+				let prevId = -1
+				shifts.forEach(shift => {
+					if (prevId !== shift.shift_id) {
+						response.push({
+							shift_id: shift.shift_id,
+							shiftTitle: shift.shiftTitle,
+							shiftCode: shift.shiftCode,
+							shiftStartingTime: shift.shiftStartingTime,
+							shiftEndingTime: shift.shiftEndingTime,
+							shiftGraceTime: shift.shiftGraceTime,
+							shiftDetails: [],
+						})
+					}
+					response[response.length - 1].shiftDetails.push({
+						attendanceFlag_id: shift.attendanceFlag_id,
+						from: shift.from,
+						to: shift.to,
+						shiftType: shift.shiftType,
+					})
+					prevId = shift.shift_id
+				})
+				return res.json(response)
+			})
+	})
 	return router
 }

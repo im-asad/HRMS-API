@@ -93,7 +93,7 @@ module.exports = sequelize => {
 			foreignKey: 'qualification_id',
 		})
 		Employee.belongsTo(models.Shift, {
-			foreignKey: 'defaultShift_id',
+			foreignKey: 'shift_id',
 		})
 		Employee.belongsTo(models.LeavingReason, {
 			foreignKey: 'leavingReason_id',

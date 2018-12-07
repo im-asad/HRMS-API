@@ -2,6 +2,7 @@ const router = require('express').Router()
 
 module.exports = sequelize => {
 	const CRUD = require('../../controllers/crud/')(sequelize)
+	const models = require("../../models/")(sequelize);
 
 	router.post('/CRUD/:module/:entity/:operation', async (req, res) => {
 		// TO DO: check permissions
@@ -67,6 +68,36 @@ module.exports = sequelize => {
 				// return UnsupportedOperationError
 				return res.sendStatus(400)
 		}
+	})
+
+
+	router.post("/select", async (req,res)=>{
+		console.log("select request working");
+		let obj = req.body;
+		let promises = [];
+		try {
+			obj.forEach(model=>{
+				console.log(model);
+				let attr = [];
+				attr[0] = [model.attributes[0],"value"];
+				attr[1] = [model.attributes[1], "text"];
+				promises.push(models[model.model].findAll(
+					{attributes: attr}
+				));
+				
+			})
+			console.log("awaiting promises");
+			let promiseResults = await Promise.all(promises);
+			let response = {};
+			console.log("promise loop");
+			promiseResults.forEach((result, index)=>{
+				response[obj[index].id] = result;
+			})
+			console.log("sending result");
+			return res.json(response);
+		}
+
+		catch (e){}
 	})
 	return router
 }

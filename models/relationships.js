@@ -7,4 +7,14 @@ module.exports = (sequelize) => {
             models[model].associate(models);
         }
     });
+    models.WeeklyOffDays.destroy({where: {}});
+    models.WeeklyOffDays.create({
+        sunday: false,
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false
+    })
 }

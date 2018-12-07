@@ -61,7 +61,7 @@ app.use(crud_routes)
 app.use('/employee', employee_routes)
 
 require('./models/relationships.js')(sequelize)
-sequelize.sync()
+sequelize.sync();
 
 // middleware for protected routes
 app.listen(2200, () => {

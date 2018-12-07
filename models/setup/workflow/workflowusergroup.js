@@ -1,14 +1,16 @@
 const Sequelize = require('sequelize')
 
 module.exports = sequelize => {
-	return sequelize.define('worflowusergroup', {
+	const WorkflowUserGroup = sequelize.define('worflowusergroup', {
 		workflowUserGroup_id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
-		},
-		workflowusergroup: {
-			type: Sequelize.STRING,
-		},
+		}
 	})
+
+	WorkflowUserGroup.associate = function(models){
+		WorkflowUserGroup.belongsTo(models.UserGroup, {foreignKey: userGroup_id});
+		WorkflowUserGroup.belongsTo(models.WorkflowGroup, {foreignKey:workflowGroup_id })
+	}
 }

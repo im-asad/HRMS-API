@@ -55,13 +55,12 @@ module.exports = sequelize => {
 		confirmationDate: {
 			type: Sequelize.STRING,
 		},
-
 		joiningDate: {
 			type: Sequelize.STRING,
 		},
 		profileImage: {
 			type: Sequelize.STRING,
-		}
+		},
 	})
 
 	Employee.associate = function(models) {
@@ -108,7 +107,6 @@ module.exports = sequelize => {
 			foreignKey: 'approver_id',
 			as: 'approver',
 		})
-
 	}
 
 	return Employee

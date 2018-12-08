@@ -42,6 +42,7 @@ module.exports = {
 				while(startDate.add(1, 'days').diff(endDate) < 0) {
 				if (!startDate.isBusinessDay()){continue;}
 				console.log(startDate.toDate());
+				console.log("Attendance Model", models.Attendance);
 				models.Attendance.create({
 					outDate: (Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending)) ? nextDay.toDate() : startDate.toDate(),
 					inDate: startDate.toDate(),
@@ -55,6 +56,7 @@ module.exports = {
 		date = moment(date);
 		let nextDay = moment(date);
 		nextDay.add(1, "day");
+
 		models.Attendance.create({
 			inDate: date.toDate(),
 			outDate: (Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending)) ? nextDay.toDate() : startDate.toDate(),

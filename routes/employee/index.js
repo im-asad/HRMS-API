@@ -37,7 +37,13 @@ module.exports = (sequelize, transporter) => {
 		// TO DO: check permission
 
 		try {
-			await Employee.create(req.body)
+			let data = req.body.data
+			Object.keys(data).forEach(element => {
+				if (data[element] === '') {
+					data[element] = null
+				}
+			})
+			await Employee.create(data)
 
 			const mailOptions = {
 				from: 'nurturebot.mailer@gmail.com',
@@ -45,9 +51,9 @@ module.exports = (sequelize, transporter) => {
 				subject: 'Your Circle account is now active',
 				text:
 					'Your circle account username: ' +
-					req.body.username +
+					data.username +
 					' is now active. Your password is: ' +
-					req.body.password,
+					data.password,
 			}
 
 			transporter.sendMail(mailOptions, function(error, info) {

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = sequelize => {
-	return sequelize.define('workflowgroup', {
+	return sequelize.define('workflowGroup', {
 		workflowGroup_id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,

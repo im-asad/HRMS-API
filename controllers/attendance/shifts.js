@@ -1,12 +1,14 @@
-const models = require('../../models')
+
 const Shift = models.Shift
 const Employee = models.Employee
 const Attendance = models.Attendance
 const moment = require('moment-business-days')
 
 
-module.exports = {
-
+module.exports = (sequelize) => {
+	const models = require('../../models')(sequelize)
+	return {
+	
 	generateMonthlyDefaultShiftsForEmployee: async (machineCode)=>{
 		let defaultShifts = await models.DefaultShift.findAll({where: {machineCode: machineCode}});
 	
@@ -29,7 +31,7 @@ module.exports = {
 				})
 			}
 		})
-	},
+	}},
 
 	generateMonthlyShiftForEmployee: async (shift_id, machineCode)=>{
 		var startDate = moment(new Date()).subtract(1, "days");
@@ -65,7 +67,7 @@ module.exports = {
 		})
 	}
 
-}
+})
 
 
 

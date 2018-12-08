@@ -19,10 +19,14 @@ module.exports = (sequelize) => {
         },
 
         outTime: {
-            type: Sequeslize.TIME
+            type: Sequelize.TIME
         },
        
         description: {
+            type: Sequelize.STRING
+        },
+
+        status: {
             type: Sequelize.STRING
         }
 

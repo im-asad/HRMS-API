@@ -220,5 +220,42 @@ module.exports = (sequelize, transporter) => {
 				return res.json(response)
 			})
 	})
+
+	router.get("/defaultshifts/:machineCode/", async (req,res)=>{
+		// TO DO: check admin or machineCode
+		
+		let defaultShifts = await models.DefaultShift.findAll({where: {machineCode: req.query.machineCode}, include: [models.Shift]}).catch(e=>{console.log(e); return res.sendStatus(400)});
+		return res.json(defaultShifts);
+		
+	})
+
+	router.delete("/defaultshifts", async (req,res)=>{
+		// TO DO: check admin
+		await models.DefaultShift.destroy({where: {defaultShift_id: req.body.data.defaultShift_id}});
+		// TO DO: send mail
+		res.sendStatus(200);
+	})
+
+	router.post("/defaultshifts", async (req,res)=> {
+		// TO DO: check admin
+		models.DefaultShift.create(req.body.data)
+		// TO DO: send mail
+		res.sendStatus(200);
+	})
+
+	// TO DO: handle attendance updates
+
+	router.get("/scheduledShifts/:machineCode", async (req,res)=>{
+		let from = moment(req.query.from).startOf("day");
+		let to = moment(req.query.to).startOf("day");
+		
+		let shifts = await models.ScheduledShift.findAll({where: {machineCode:req.params.machineCode,
+			date: {
+				$between: [from.toDate(), to.toDate()]
+			}}}).catch(e=>{console.log(e); return res.sendStatus(400)})
+		return res.json(shifts);
+	})
+
+
 	return router
 }

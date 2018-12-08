@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 module.exports = sequelize => {
-	return sequelize.define('shift', {
+	const Shift = sequelize.define('shift', {
 		shift_id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
@@ -27,4 +27,7 @@ module.exports = sequelize => {
 			type: Sequelize.STRING,
 		},
 	})
+
+
+	return Shift
 }

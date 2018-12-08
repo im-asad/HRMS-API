@@ -4,5 +4,4 @@ module.exports = sequelize => ({
 	AttendanceRule: sequelize.import('./attendanceRule.js'),
 	DefaultShift: sequelize.import("./defaultShift.js"),
 	ScheduledShift: sequelize.import('./scheduledShift.js'),
-	ShiftFlag: sequelize.import('./shiftFlag.js')
 })

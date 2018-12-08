@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 
     })
 
-    EmployeeShift.associate = function (models) {
+    ScheduledShift.associate = function (models) {
         EmployeeShift.belongsTo(models.Shift, {
             foreignKey: "shift_id",
             onDelete: 'CASCADE',
@@ -30,5 +30,5 @@ module.exports = (sequelize) => {
 
     }
 
-    return EmployeeShift;
+    return ScheduledShift;
 }

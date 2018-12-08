@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
         },
 
         actualOutTime: {
-            type: Sequeslize.TIME
+            type: Sequelize.TIME
         }
 
     })

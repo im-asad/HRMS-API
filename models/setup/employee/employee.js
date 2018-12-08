@@ -15,9 +15,6 @@ module.exports = sequelize => {
 			type: Sequelize.STRING,
 			primaryKey: true,
 		},
-		employeeCountry: {
-			type: Sequelize.STRING,
-		},
 		maritalStatus: {
 			type: Sequelize.STRING,
 		},
@@ -79,6 +76,9 @@ module.exports = sequelize => {
 		})
 		Employee.belongsTo(models.City, {
 			foreignKey: 'city_id',
+		})
+		Employee.belongsTo(models.Country, {
+			foreignKey: 'country_id',
 		})
 		Employee.belongsTo(models.QualificationLevel, {
 			foreignKey: 'qualificationLevel_id',

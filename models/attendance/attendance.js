@@ -8,7 +8,11 @@ module.exports = (sequelize) => {
             autoIncrement: true
         },
 
-        date: {
+        actualIndate: {
+            type: Sequelize.DATE
+        },
+
+        actualOutdate: {
             type: Sequelize.DATE
         },
 
@@ -25,7 +29,7 @@ module.exports = (sequelize) => {
         },
 
         actualOutTime: {
-            type: Sequeslize.TIME
+            type: Sequelize.TIME
         }
 
     })

@@ -108,6 +108,7 @@ module.exports = sequelize => {
 			foreignKey: 'approver_id',
 			as: 'approver',
 		})
+
 	}
 
 	return Employee

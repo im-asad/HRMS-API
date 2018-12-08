@@ -49,6 +49,7 @@ cloudinary.config({
 const auth_routes = require('./routes/auth')(sequelize)
 const crud_routes = require('./routes/general/crud')(sequelize)
 const employee_routes = require('./routes/employee')(sequelize, transporter)
+const attendance_routes = require('./routes/attendance')(sequelize, transporter)
 app.use(
 	bodyParser.urlencoded({
 		extended: true,
@@ -58,6 +59,7 @@ app.use(
 app.use(bodyParser.json())
 app.use(auth_routes)
 app.use(crud_routes)
+app.use('/attendance', attendance_routes);
 app.use('/employee', employee_routes)
 
 require('./models/relationships.js')(sequelize)

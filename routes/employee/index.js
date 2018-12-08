@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const moment = require('moment')
-const attendanceController = require("../../controllers/attendance/shifts.js");
+const attendanceController = require('../../controllers/attendance/shifts.js')
 
 module.exports = (sequelize, transporter) => {
 	const models = require('../../models')(sequelize)
 	const Employee = models.Employee
 
 	router.get('/', async (req, res) => {
-        let employees = await Employee.findAll({});
-        res.json({status: 200, employees})
+		let employees = await Employee.findAll({})
+		res.json({ status: 200, employees })
 	})
 
 	router.get('/birthdays', async (req, res) => {
@@ -78,8 +78,8 @@ module.exports = (sequelize, transporter) => {
 	})
 
 	router.put('/', async (req, res) => {
-		const employeeDetails = Object.assign({}, req.body);
-		const machineCode = req.body.machineCode;
+		const employeeDetails = Object.assign({}, req.body)
+		const machineCode = req.body.machineCode
 		let allowed_keys = [
 			'CNIC',
 			'mobileNo',
@@ -89,7 +89,7 @@ module.exports = (sequelize, transporter) => {
 			'emergencyNumber',
 			'password',
 			'profileImage',
-			'maritalStatus'
+			'maritalStatus',
 		]
 		for (key in employeeDetails) {
 			if (!allowed_keys.includes(key)) {
@@ -98,15 +98,15 @@ module.exports = (sequelize, transporter) => {
 		}
 		const updateStatus = await Employee.update(employeeDetails, {
 			where: {
-				machineCode
+				machineCode,
 			},
 		})
 
 		if (updateStatus) {
-			const updatedEmployee = await Employee.findOne({where: {machineCode}})
-			res.json({status: 200, employee: updatedEmployee})
+			const updatedEmployee = await Employee.findOne({ where: { machineCode } })
+			res.json({ status: 200, employee: updatedEmployee })
 		} else {
-			res.json({status: 500, message: "Cannot update employee"})
+			res.json({ status: 500, message: 'Cannot update employee' })
 		}
 	})
 
@@ -237,44 +237,56 @@ module.exports = (sequelize, transporter) => {
 			})
 	})
 
-	router.get("/defaultshifts/:machineCode/", async (req,res)=>{
+	router.get('/defaultshifts/:machineCode/', async (req, res) => {
 		// TO DO: check admin or machineCode
-		
-		let defaultShifts = await models.DefaultShift.findAll({where: {machineCode: req.query.machineCode}, include: [models.Shift]}).catch(e=>{console.log(e); return res.sendStatus(400)});
-		return res.json(defaultShifts);
-		
+
+		let defaultShifts = await models.DefaultShift.findAll({
+			where: { machineCode: req.params.machineCode },
+			include: [models.Shift],
+		}).catch(e => {
+			console.log(e)
+			return res.sendStatus(400)
+		})
+		return res.json(defaultShifts)
 	})
 
-	router.delete("/defaultshifts", async (req,res)=>{
+	router.delete('/defaultshifts', async (req, res) => {
 		// TO DO: check admin
 
-		let deletedShift = await models.DefaultShfit.find({where: {defaultShift_id: req.body.data.defaultShift_id}});
+		let deletedShift = await models.DefaultShift.find({
+			where: { defaultShift_id: req.body.data.defaultShift_id },
+		})
 
-		await models.DefaultShift.destroy({where: {defaultShift_id: req.body.data.defaultShift_id}});
+		await models.DefaultShift.destroy({ where: { defaultShift_id: req.body.data.defaultShift_id } })
 		// TO DO: send mail
-		await models.Attendance.destroy({where: {machineCode: deletedShift.machineCode, shift_id: deletedShift.shift_id, inDate: {$gt: moment()}}});
-		
-		res.sendStatus(200);
+		await models.Attendance.destroy({
+			where: {
+				machineCode: deletedShift.machineCode,
+				shift_id: deletedShift.shift_id,
+				inDate: { $gt: moment() },
+			},
+		})
+
+		res.sendStatus(200)
 	})
 
-	router.post("/defaultshifts", async (req,res)=> {
+	router.post('/defaultshifts', async (req, res) => {
 		// TO DO: check admin
 		models.DefaultShift.create(req.body.data)
-
-		attendanceController.generateMonthlyShiftForEmployee(req.body.data.shift_id, req.body.data.machineCode);
+		/* attendanceController.generateMonthlyShiftForEmployee(
+			req.body.data.shift_id,
+			req.body.data.machineCode
+		) */
 
 		// TO DO: send mail
-		res.sendStatus(200);
+		res.sendStatus(200)
 	})
 
-	router.post("/customshift", async (req,res)=>{
-		attendanceController.addCustomShift(req.body.data.shift_id, req.body.data.machineCode, req.body.date);
+	router.post('/customshift', async (req, res) => {
+		attendanceController.addCustomShift(req.body.data.shift_id, req.body.data.machineCode, req.body.date)
 	})
 
 	// TO DO: handle attendance updates
-
-	
-
 
 	return router
 }

@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const moment = require('moment')
-const attendanceController = require('../../controllers/attendance/shifts.js')
+
 
 module.exports = (sequelize, transporter) => {
+	const attendanceController = require('../../controllers/attendance/shifts.js')(sequelize)
 	const models = require('../../models')(sequelize)
 	const Employee = models.Employee
 

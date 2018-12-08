@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const moment = require('moment')
+const attendanceController = require("../../controllers/attendance/shifts.js");
 
 module.exports = (sequelize, transporter) => {
 	const models = require('../../models')(sequelize)
@@ -246,16 +247,28 @@ module.exports = (sequelize, transporter) => {
 
 	router.delete("/defaultshifts", async (req,res)=>{
 		// TO DO: check admin
+
+		let deletedShift = await models.DefaultShfit.find({where: {defaultShift_id: req.body.data.defaultShift_id}});
+
 		await models.DefaultShift.destroy({where: {defaultShift_id: req.body.data.defaultShift_id}});
 		// TO DO: send mail
+		await models.Attendance.destroy({where: {machineCode: deletedShift.machineCode, shift_id: deletedShift.shift_id, inDate: {$gt: moment()}}});
+		
 		res.sendStatus(200);
 	})
 
 	router.post("/defaultshifts", async (req,res)=> {
 		// TO DO: check admin
 		models.DefaultShift.create(req.body.data)
+
+		attendanceController.generateMonthlyShiftForEmployee(req.body.data.shift_id, req.body.data.machineCode);
+
 		// TO DO: send mail
 		res.sendStatus(200);
+	})
+
+	router.post("/customshift", async (req,res)=>{
+		attendanceController.addCustomShift(req.body.data.shift_id, req.body.data.machineCode, req.body.date);
 	})
 
 	// TO DO: handle attendance updates

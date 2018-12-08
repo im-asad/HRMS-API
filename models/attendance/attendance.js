@@ -9,11 +9,13 @@ module.exports = (sequelize) => {
         },
 
         actualInDate: {
-            type: Sequelize.DATEONLY
+            type: Sequelize.DATEONLY,
+            defaultValue: null
         },
 
         actualOutDate: {
-            type: Sequelize.DATEONLY
+            type: Sequelize.DATEONLY,
+            defaultValue: null
         },
 
         inDate: {
@@ -25,11 +27,13 @@ module.exports = (sequelize) => {
         },
 
         status: {
-            type: Sequelize.INTEGER
+            type: Sequelize.STRING,
+            defaultValue: "N/A"
         },
 
         leave: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            defaultValuue: false
         },
 
         actualInTime: {

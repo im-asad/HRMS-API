@@ -8,12 +8,20 @@ module.exports = (sequelize) => {
             autoIncrement: true
         },
 
-        actualIndate: {
-            type: Sequelize.DATE
+        actualInDate: {
+            type: Sequelize.DATEONLY
         },
 
-        actualOutdate: {
-            type: Sequelize.DATE
+        actualOutDate: {
+            type: Sequelize.DATEONLY
+        },
+
+        inDate: {
+            type: Sequelize.DATEONLY
+        },
+
+        outDate: {
+            type: Sequelize.DATEONLY
         },
 
         status: {

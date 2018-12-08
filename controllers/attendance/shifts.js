@@ -18,7 +18,7 @@ module.exports = {
 				while(startDate.add(1, 'days').diff(endDate) < 0) {
 				if (!startDate.isBusinessDay()){continue;}
 				console.log(startDate.toDate());
-				models.ScheduledShift.create({
+				models.Attendance.create({
 					date: startDate.toDate(),
 					machineCode: machineCode,
 					shift_id: defaultShift_id

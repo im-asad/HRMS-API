@@ -256,6 +256,14 @@ module.exports = (sequelize, transporter) => {
 		return res.json(shifts);
 	})
 
+	router.post("/scheduledShift", async (req,res)=>{
+
+	})
+
+	router.post("/scheduledShift", async (req,res)=>{
+		router.delete
+	})
+
 
 	return router
 }

@@ -33,11 +33,13 @@ module.exports = (sequelize) => {
         },
 
         actualInTime: {
-            type: Sequelize.TIME
+            type: Sequelize.TIME,
+            defaultValue: null
         },
 
         actualOutTime: {
-            type: Sequelize.TIME
+            type: Sequelize.TIME,
+            defaultValue: null
         }
 
     })
@@ -57,6 +59,6 @@ module.exports = (sequelize) => {
     }
 
 
-
+    return Attendance
 
 }

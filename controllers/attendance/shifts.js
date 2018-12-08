@@ -21,7 +21,10 @@ module.exports = {
 				models.Attendance.create({
 					date: startDate.toDate(),
 					machineCode: machineCode,
-					shift_id: defaultShift_id
+					shift_id: defaultShift_id,
+					inDate: startDate.toDate(),
+					outDate: (Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending)) ? start,
+					
 				})
 			}
 		})

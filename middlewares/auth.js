@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 module.exports = {
     verifyToken: (req, res, next) => {
         const bearerHeader = req.headers["authorization"];
@@ -6,12 +7,14 @@ module.exports = {
             try {
                 const decoded = jwt.verify(token, process.env.AUTH_SECRET);
                 if (decoded) {
+                    req.user = decoded.tokenUser;
                     next();
                 } else {
                     res.json({err: "Authentication failed!", status: 402})
                 }
             } catch(err) {
                 // err
+                console.log(err)
                 res.json({err: "Invalid Token", status: 402})
             }
         } else {

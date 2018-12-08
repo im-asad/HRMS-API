@@ -17,12 +17,12 @@ module.exports = (sequelize) => {
     })
 
     ScheduledShift.associate = function (models) {
-        EmployeeShift.belongsTo(models.Shift, {
+        ScheduledShift.belongsTo(models.Shift, {
             foreignKey: "shift_id",
             onDelete: 'CASCADE',
             hooks: true
         });
-        EmployeeShift.belongsTo(models.Employee, {
+        ScheduledShift.belongsTo(models.Employee, {
             foreignKey: "machineCode",
             onDelete: 'CASCADE',
             hooks: true

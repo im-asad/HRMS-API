@@ -260,24 +260,7 @@ module.exports = (sequelize, transporter) => {
 
 	// TO DO: handle attendance updates
 
-	router.get("/scheduledShifts/:machineCode", async (req,res)=>{
-		let from = moment(req.query.from).startOf("day");
-		let to = moment(req.query.to).startOf("day");
-		
-		let shifts = await models.ScheduledShift.findAll({where: {machineCode:req.params.machineCode,
-			date: {
-				$between: [from.toDate(), to.toDate()]
-			}}}).catch(e=>{console.log(e); return res.sendStatus(400)})
-		return res.json(shifts);
-	})
-
-	router.post("/scheduledShift", async (req,res)=>{
-
-	})
-
-	router.post("/scheduledShift", async (req,res)=>{
-		router.delete
-	})
+	
 
 
 	return router

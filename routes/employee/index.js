@@ -248,7 +248,7 @@ module.exports = (sequelize, transporter) => {
 	router.delete("/defaultshifts", async (req,res)=>{
 		// TO DO: check admin
 
-		let deletedShift = await models.DefaultShfit.find({where: {defaultShift_id: req.body.data.defaultShift_id}});
+		let deletedShift = await models.DefaultShift.find({where: {defaultShift_id: req.body.data.defaultShift_id}});
 
 		await models.DefaultShift.destroy({where: {defaultShift_id: req.body.data.defaultShift_id}});
 		// TO DO: send mail

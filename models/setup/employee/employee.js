@@ -8,15 +8,12 @@ module.exports = sequelize => {
 		password: {
 			type: Sequelize.STRING,
 		},
-		employee_name: {
+		employeeName: {
 			type: Sequelize.STRING,
 		},
 		machineCode: {
 			type: Sequelize.STRING,
 			primaryKey: true,
-		},
-		employee_country: {
-			type: Sequelize.STRING,
 		},
 		maritalStatus: {
 			type: Sequelize.STRING,
@@ -80,6 +77,9 @@ module.exports = sequelize => {
 		Employee.belongsTo(models.City, {
 			foreignKey: 'city_id',
 		})
+		Employee.belongsTo(models.Country, {
+			foreignKey: 'country_id',
+		})
 		Employee.belongsTo(models.QualificationLevel, {
 			foreignKey: 'qualificationLevel_id',
 		})
@@ -103,7 +103,7 @@ module.exports = sequelize => {
 		})
 		Employee.belongsTo(models.Employee, {
 			foreignKey: 'approver_id',
-			as: "approver"
+			as: 'approver',
 		})
 	}
 

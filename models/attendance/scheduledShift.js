@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    const EmployeeShift = sequelize.define("employeeShifts", {
+    const ScheduledShift = sequelize.define("scheduledShifts", {
         employeeShift_id: {
             type: Sequelize.INTEGER,
             primaryKey: true,

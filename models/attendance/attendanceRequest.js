@@ -7,23 +7,32 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        effectFrequency: {
-            type: Sequelize.INTEGER
+        inDate: {
+            type: Sequelize.DATE
         },
-        flagCount: {
-            type: Sequelize.INTEGER
+
+        outDate: {
+            type: Sequelize.DATE
         },
-        exemptFlagCount: {
-            type: Sequelize.INTEGER
+        inTime: {
+            type: Sequelize.TIME
         },
-        exemptMinutes: {
-            type: Sequelize.INTEGER
+
+        outTime: {
+            type: Sequeslize.TIME
         },
-        effectQuantity: {
-            type: Sequelize.INTEGER
+       
+        description: {
+            type: Sequelize.STRING
         }
 
     })
+    
+    AttendanceRequest.associate = function(models){
+        AttendanceRequest.belongsTo(models.Attendance, {foreign_key: "attendance_id", onDelete: "CASCADE", hooks: true});
+        AttendanceRequest.belongsTo(models.Employee, {foreign_key: "requester_id", as: "requester", onDelete: "CASCADE", hooks: true});
+        AttendanceRequest.belongsTo(models.Employee, {foreign_key: "approver_id", as: "approver", onDelete: "CASCADE", hooks: true})
+    }
 
     return AttendanceRequest;
 }

@@ -33,7 +33,7 @@ module.exports = (sequelize, transporter) => {
 		})
 	})
 
-	router.post('/', async (req, res) => {
+	router.post('/create', async (req, res) => {
 		// TO DO: check permission
 
 		try {

@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
     const User = require("../models/user")(sequelize);
     const Employee = require("../models/setup/employee/employee")(sequelize);
     router.get("/", middlewares.verifyToken, function (req, res) {
+        console.log("REQUEST USER __________________________________ : ", req.user);
         res.json({message: "API is up and running.", request_user: req.user})
     });
 
@@ -22,7 +23,11 @@ module.exports = (sequelize) => {
         } else {
             const match = bcrypt.compareSync(password, user.dataValues.password);
             if (match) {
-                const token = jwt.sign({user}, auth_secret);
+                const { username, password, employeeName, employeeType, machineCode } = user;
+                const tokenUser = {
+                    username, password, employeeName, employeeType, machineCode
+                }
+                const token = jwt.sign({tokenUser}, auth_secret);
                 res.json({status: 200, token})
             } else {
                 res.json({status: 402, message: "Invalid credentials."});

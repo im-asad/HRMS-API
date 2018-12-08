@@ -11,6 +11,9 @@ module.exports = sequelize => {
 		employeeName: {
 			type: Sequelize.STRING,
 		},
+		employeeType: {
+			type: Sequelize.STRING,
+		},
 		machineCode: {
 			type: Sequelize.STRING,
 			primaryKey: true,

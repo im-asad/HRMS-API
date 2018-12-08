@@ -59,6 +59,9 @@ module.exports = sequelize => {
 		joiningDate: {
 			type: Sequelize.STRING,
 		},
+		profileImage: {
+			type: Sequelize.STRING,
+		}
 	})
 
 	Employee.associate = function(models) {

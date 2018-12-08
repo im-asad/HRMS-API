@@ -5,6 +5,11 @@ module.exports = (sequelize, transporter) => {
 	const models = require('../../models')(sequelize)
 	const Employee = models.Employee
 
+	router.get('/', async (req, res) => {
+        let employees = await Employee.findAll({});
+        res.json({status: 200, employees})
+	})
+
 	router.get('/birthdays', async (req, res) => {
 		let employees = await Employee.findAll({
 			where: {
@@ -72,7 +77,8 @@ module.exports = (sequelize, transporter) => {
 	})
 
 	router.put('/', async (req, res) => {
-		let obj = req.body
+		const employeeDetails = Object.assign({}, req.body);
+		const machineCode = req.body.machineCode;
 		let allowed_keys = [
 			'CNIC',
 			'mobileNo',
@@ -81,17 +87,26 @@ module.exports = (sequelize, transporter) => {
 			'permanentAddress',
 			'emergencyNumber',
 			'password',
+			'profileImage',
+			'maritalStatus'
 		]
-		for (key in obj) {
+		for (key in employeeDetails) {
 			if (!allowed_keys.includes(key)) {
-				delete obj[key]
+				delete employeeDetails[key]
 			}
 		}
-		Employee.update(obj, {
+		const updateStatus = await Employee.update(employeeDetails, {
 			where: {
-				machineCode: req.body.machineCode,
+				machineCode
 			},
 		})
+
+		if (updateStatus) {
+			const updatedEmployee = await Employee.findOne({where: {machineCode}})
+			res.json({status: 200, employee: updatedEmployee})
+		} else {
+			res.json({status: 500, message: "Cannot update employee"})
+		}
 	})
 
 	router.get('/formData', async (req, res) => {

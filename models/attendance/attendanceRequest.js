@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    const AttendanceRequest = sequelize.define("attendancerule", {
+    const AttendanceRequest = sequelize.define("attendanceRequest", {
         attendanceRequest_id: {
             type: Sequelize.INTEGER,
             primaryKey: true,

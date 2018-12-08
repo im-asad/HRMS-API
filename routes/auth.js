@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
     const User = require("../models/user")(sequelize);
     const Employee = require("../models/setup/employee/employee")(sequelize);
     router.get("/", middlewares.verifyToken, function (req, res) {
-        res.send("API is up and running.")
+        res.json({message: "API is up and running.", request_user: req.user})
     });
 
     router.post("/api/login", async (req, res) => {

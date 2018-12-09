@@ -5,7 +5,6 @@ module.exports = sequelize => {
 		weeklyOffDays: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
-			autoIncrement: true,
 		},
 		sunday: {
 			type: Sequelize.BOOLEAN,

@@ -1,5 +1,5 @@
 module.exports = (models) => ({
-    remove: async (model, id, id_key)=> {
+    execute: async (model, id, id_key)=> {
         try {
          whereClause = {};
          whereClause[id_key] = id;

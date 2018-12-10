@@ -1,5 +1,5 @@
 module.exports = models => ({
-	readAll: async model => {
+	execute: async model => {
 		try {
 			let records = await models[model].findAll({
 				include: [{ all: true }],

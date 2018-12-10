@@ -1,5 +1,5 @@
 module.exports = (models) => ({
-   create: async (model, data)=> {
+   execute: async (model, data)=> {
        try {
         console.log("models", models);
         await models[model].create(data);

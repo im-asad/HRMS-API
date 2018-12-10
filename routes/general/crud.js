@@ -4,17 +4,13 @@ module.exports = sequelize => {
 	const CRUD = require('../../controllers/crud/')(sequelize)
 	const models = require("../../models/")(sequelize);
 
-	router.post('/CRUD/:module/:entity/:operation', async (req, res) => {
-		// TO DO: check permissions
+	
+	let handleRequest = async (req, res) => {
 
-		// TO DO: fetch the correct mode
-		const module = req.params.module
 		const entity = req.params.entity
 		const operation = req.params.operation
 
-		// TO DO: check if entity is valid
 
-		// TO DO: use CRUD controller
 		let status
 		switch (operation) {
 			case 'create':
@@ -24,7 +20,7 @@ module.exports = sequelize => {
 				if (!req.body.data) {
 					return res.sendStatus(400)
 				}
-				status = await CRUD.create.create(entity, req.body.data)
+				status = await CRUD.create.execute(entity, req.body.data)
 				if (status === 1) {
 					return res.sendStatus(200)
 				} else {
@@ -33,11 +29,12 @@ module.exports = sequelize => {
 				break
 
 			case 'delete':
+				console.log("===DELETING===")
 				// delete entity
 				if (!req.body.id || !req.body.id_key) {
 					return res.sendStatus(400)
 				}
-				status = await CRUD.remove.remove(entity, req.body.id, req.body.id_key)
+				status = await CRUD.remove.execute(entity, req.body.id, req.body.id_key)
 				if (status === 1) {
 					return res.sendStatus(200)
 				} else {
@@ -48,7 +45,7 @@ module.exports = sequelize => {
 			case 'update':
 				console.log('===UPDATING===')
 				// update entity
-				status = await CRUD.update.update(entity, req.body.id, req.body.id_key, req.body.data)
+				status = await CRUD.update.execute(entity, req.body.id, req.body.id_key, req.body.data)
 				if (status === 1) {
 					return res.sendStatus(200)
 				} else {
@@ -57,7 +54,8 @@ module.exports = sequelize => {
 				break
 
 			case 'read':
-				let records = await CRUD.read.readAll(entity)
+				console.log("=== READING ===");
+				let records = await CRUD.read.execute(entity)
 				if (records !== -1) {
 					return res.json(records)
 				} else {
@@ -65,10 +63,11 @@ module.exports = sequelize => {
 				}
 				break
 			default:
-				// return UnsupportedOperationError
 				return res.sendStatus(400)
 		}
-	})
+	}
+
+	router.post('/CRUD/:module/:entity/:operation', handleRequest)
 
 
 	router.post("/select", async (req,res)=>{

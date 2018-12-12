@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
     // Relationship to be established between requisitioner, approver and this model
-    return sequelize.define("employee-leave-opening", {
+    return sequelize.define("leavePlanRequest", {
         leaveYear: {
             type: Sequelize.STRING
         },

@@ -68,46 +68,46 @@ module.exports = sequelize => {
 
 	Employee.associate = function(models) {
 		Employee.belongsTo(models.Designation, {
-			foreignKey: 'designation_id',
+			foreignKey: 'designation_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Branch, {
-			foreignKey: 'branch_id',
+			foreignKey: 'branch_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Department, {
-			foreignKey: 'department_id',
+			foreignKey: 'department_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.EmployeeCategory, {
-			foreignKey: 'employeeCategory_id',
+			foreignKey: 'employeeCategory_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.City, {
-			foreignKey: 'city_id',
+			foreignKey: 'city_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Country, {
-			foreignKey: 'country_id',
+			foreignKey: 'country_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.QualificationLevel, {
-			foreignKey: 'qualificationLevel_id',
+			foreignKey: 'qualificationLevel_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Division, {
-			foreignKey: 'division_id',
+			foreignKey: 'division_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.SubDepartment, {
-			foreignKey: 'subDepartment_id',
+			foreignKey: 'subDepartment_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Qualification, {
-			foreignKey: 'qualification_id',
+			foreignKey: 'qualification_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Shift, {
-			foreignKey: 'shift_id',
+			foreignKey: 'shift_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.LeavingReason, {
-			foreignKey: 'leavingReason_id',
+			foreignKey: 'leavingReason_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.SubLeavingReason, {
-			foreignKey: 'subLeavingReason_id',
+			foreignKey: 'subLeavingReason_id', onDelete: "CASCADE"
 		})
 		Employee.belongsTo(models.Employee, {
-			foreignKey: 'approver_id',
+			foreignKey: 'approver_id', onDelete: "CASCADE",
 			as: 'approver',
 		})
 	}

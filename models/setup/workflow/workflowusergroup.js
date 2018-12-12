@@ -10,8 +10,8 @@ module.exports = sequelize => {
 	})
 
 	WorkflowUserGroup.associate = function(models){
-		WorkflowUserGroup.belongsTo(models.UserGroup, {foreignKey: "userGroup_id"});
-		WorkflowUserGroup.belongsTo(models.WorkflowGroup, {foreignKey: "workflowGroup_id" })
+		WorkflowUserGroup.belongsTo(models.UserGroup, { foreignKey: "userGroup_id", onDelete: "CASCADE" });
+		WorkflowUserGroup.belongsTo(models.WorkflowGroup, {foreignKey: "workflowGroup_id", onDelete: "CASCADE" })
 	}
 	return WorkflowUserGroup;
 }

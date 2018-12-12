@@ -12,7 +12,7 @@ module.exports = sequelize => {
 		},
 	})
 	SubLeavingReason.associate = function(models) {
-		SubLeavingReason.belongsTo(models.LeavingReason, { foreignKey: 'leavingReason_id' })
+		SubLeavingReason.belongsTo(models.LeavingReason, { foreignKey: 'leavingReason_id', onDelete: "CASCADE" })
 	}
 	return SubLeavingReason
 }

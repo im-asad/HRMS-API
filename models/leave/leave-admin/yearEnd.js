@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("employee-leave-opening", {
+    return sequelize.define("yearEnd", {
         fromLeaveYear: {
             type: Sequelize.STRING
         },

@@ -1,23 +1,16 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("leaveSetup", {
-        leaveSetup_id: {
+    const LeaveType = sequelize.define("leaveType", {
+        leaveType_id: {
             type:Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        title: {
-            type: Sequelize.STRING
-        },
-        prefix: {
-            type: Sequelize.STRING
-        },
-        sortIndex: {
+        quantity: {
             type: Sequelize.INTEGER
-        },
-        leaveType: {
-            type: Sequelize.STRING
         }
     })
+
+    return LeaveSetup;
 }

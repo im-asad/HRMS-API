@@ -80,10 +80,9 @@ module.exports = sequelize => {
 				attr[1] = [model.attributes[1], "text"];
 				promises.push(models[model.model].findAll(
 					{attributes: attr}
-				));
-				
+				))
 			})
-			console.log("awaiting promises");
+			console.log("awaiting ;promises");
 			let promiseResults = await Promise.all(promises);
 			let response = {};
 			console.log("promise loop");

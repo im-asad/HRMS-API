@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt-nodejs');
-const adminPrevileges = require('./permissions/admin');
-const supervisorPrevileges = require('./permissions/supervisor');
-const developerPrevileges = require('./permissions/developer');
-console.log("================================")
+const bcrypt = require('bcrypt-nodejs')
+const adminPrevileges = require('./permissions/admin')
+const supervisorPrevileges = require('./permissions/supervisor')
+const developerPrevileges = require('./permissions/developer')
+console.log('================================')
 console.log(adminPrevileges)
-console.log("================================")
+console.log('================================')
 module.exports = async db => {
 	console.log(db)
 	const {
@@ -47,11 +47,7 @@ module.exports = async db => {
 		Permission,
 	} = db
 
-	await Role.bulkCreate([
-		{roleName: "supervisor"},
-        {roleName: "admin"},
-        {roleName: "developer"},
-    ])
+	await Role.bulkCreate([{ roleName: 'supervisor' }, { roleName: 'admin' }, { roleName: 'developer' }])
 
 	await WeeklyOffDays.bulkCreate([
 		{
@@ -263,7 +259,7 @@ module.exports = async db => {
 		{ from: '11:00', to: '18:00', shiftType: 'Shift Type-3', shift_id: 2, attendanceFlag_id: 3 },
 	])
 
-	await EmployeeLeaveOpening.bulkCreate([
+	/* 	await EmployeeLeaveOpening.bulkCreate([
 		{
 			leaveYear: '2018',
 			leaveType: 'Leave Type-1',
@@ -288,26 +284,25 @@ module.exports = async db => {
 			leaveFrom: '2018-09-10',
 			leaveTo: '2018-10-1',
 		},
-	])
-
+	]) 
 	await LeaveSetup.bulkCreate([
 		{ title: 'Setup title-1', sortIndex: 20, prefix: 'Prefix-1', leaveType: 'Leave Type-1' },
 		{ title: 'Setup title-2', sortIndex: 10, prefix: 'Prefix-2', leaveType: 'Leave Type-2' },
 		{ title: 'Setup title-3', sortIndex: 0, prefix: 'Prefix-3', leaveType: 'Leave Type-1' },
 	])
-	// await LeavePolicy.bulkCreate([
-	//     {}
-	// ])
-	//
-	// await LeavePolicyEmployeeWise.bulkCreate([
-	//     {}
-	// ])
+	await LeavePolicy.bulkCreate([
+	    {}
+	])
+	
+	await LeavePolicyEmployeeWise.bulkCreate([
+	    {}
+	])
 
-	// await LeaveYearSetup.bulkCreate([
-	//     {year: "2018", startDate: "2018-10-10", endDate: "2018-12-13", isCurrentYear: 0},
-	//     {year: "2018", startDate: "2018-10-12", endDate: "2018-12-14", isCurrentYear: 1},
-	//     {year: "2018", startDate: "2018-10-18", endDate: "2018-12-21", isCurrentYear: 0},
-	// ])
+	await LeaveYearSetup.bulkCreate([
+	    {year: "2018", startDate: "2018-10-10", endDate: "2018-12-13", isCurrentYear: 0},
+	    {year: "2018", startDate: "2018-10-12", endDate: "2018-12-14", isCurrentYear: 1},
+	    {year: "2018", startDate: "2018-10-18", endDate: "2018-12-21", isCurrentYear: 0},
+	])
 
 	await LeavePlanRequest.bulkCreate([
 		{
@@ -385,7 +380,7 @@ module.exports = async db => {
 			leaveFrom: '2018-10-11',
 			leaveTo: '2018-10-17',
 		},
-	])
+	]) */
 
 	const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS))
 	const hash = bcrypt.hashSync('1234', salt)
@@ -521,21 +516,19 @@ module.exports = async db => {
 	// Find all roles and add permissions to respective role.
 	const roles = await Role.findAll({
 		raw: true,
-	});
+	})
 
 	const permissionsObject = {
 		admin: JSON.stringify(adminPrevileges),
 		supervisor: JSON.stringify(supervisorPrevileges),
-		developer: JSON.stringify(developerPrevileges)
+		developer: JSON.stringify(developerPrevileges),
 	}
-	const permissions = [];
-	roles.forEach((role) => {
-		permissions.push({permissions: permissionsObject[role.roleName], roleId: role.role_id});
+	const permissions = []
+	roles.forEach(role => {
+		permissions.push({ permissions: permissionsObject[role.roleName], roleId: role.role_id })
 	})
 
 	await Permission.bulkCreate(permissions)
 
-
-
-	console.log(JSON.stringify(adminPrevileges));
+	console.log(JSON.stringify(adminPrevileges))
 }

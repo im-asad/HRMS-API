@@ -1,7 +1,5 @@
 const router = require('express').Router()
 const moment = require('moment')
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
 
 module.exports = (sequelize, transporter) => {
 	const models = require('../../models')(sequelize);
@@ -15,7 +13,7 @@ module.exports = (sequelize, transporter) => {
 
         let attendance = await models.Attendance.findAll({where: {machineCode: req.params.machineCode,
             inDate: {
-                [Op.between]: [from.toDate(), to.toDate()]
+                $between: [from.toDate(), to.toDate()]
             }
         }, include:[models.Shift]}).catch(console.log);
 
@@ -35,18 +33,13 @@ module.exports = (sequelize, transporter) => {
     router.get("/attendanceRequest", async (req,res)=> {
         // TO DO: admin middleware
         let status = req.query.status;
-        let from = moment(req.query.from).startOf("day").format("YYYY-MM-DD HH:mm");
-        let to = moment(req.query.to).endOf("day").format("YYYY-MM-DD HH:mm");
+        let from = moment(req.query.from).startOf("day");
+        let to = moment(req.query.to).startOf("day");
 
-        // let requests = await models.AttendanceRequest.findAll({where: {status:status,
-        // createdAt: {
-        //     $between: [from.toDate(), to.toDate()]
-        // }}, include: [models.Attendance]}).catch(e=>{console.log(e); return res.sendStatus(400)})
-
-        let requests = await sequelize.query(`SELECT * FROM attendanceRequests
-         INNER JOIN attendances ON attendanceRequests.attendanceAttendanceId=attendances.attendance_id
-         WHERE attendanceRequests.status = "${status}" AND attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `,
-        {type: sequelize.QueryTypes.SELECT});
+        let requests = await models.AttendanceRequest.findAll({where: {status:status,
+        createdAt: {
+            $between: [from.toDate(), to.toDate()]
+        }}, include: [models.Attendance]}).catch(e=>{console.log(e); return res.sendStatus(400)})
 
         return res.json(requests);
     })

@@ -264,7 +264,7 @@ module.exports = (sequelize, transporter) => {
 			where: {
 				machineCode: deletedShift.machineCode,
 				shift_id: deletedShift.shift_id,
-				inDate: { [Op.gt]: moment().toDate() },
+				inDate: { $gt: moment().toDate() },
 			},
 		})
 
@@ -274,10 +274,10 @@ module.exports = (sequelize, transporter) => {
 	router.post('/defaultshifts', async (req, res) => {
 		// TO DO: check admin
 		models.DefaultShift.create(req.body.data)
-		attendanceController.generateMonthlyShiftForEmployee(
+		/* attendanceController.generateMonthlyShiftForEmployee(
 			req.body.data.shift_id,
 			req.body.data.machineCode
-		) 
+		) */
 
 		// TO DO: send mail
 		res.sendStatus(200)
@@ -285,14 +285,9 @@ module.exports = (sequelize, transporter) => {
 
 	router.post('/customshift', async (req, res) => {
 		attendanceController.addCustomShift(req.body.data.shift_id, req.body.data.machineCode, req.body.date)
-		return res.sendStatus(200);
 	})
 
-	router.post("/removecustomshift", async (req,res)=>{
-		attendanceController.removeScheduledShift(req.body.data.attendance_Id)
-		return res.sendStatus(200);
-	})
-
+	// TO DO: handle attendance updates
 
 	return router
 }

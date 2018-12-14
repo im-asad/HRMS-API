@@ -1,0 +1,173 @@
+{
+  "admin": true,
+  "employees": {
+    "canAccess": true
+  },
+  "birthdays": {
+    "canAccess": true
+  },
+  "home": {
+    "canAccess": true,
+    "profile": {
+      "canAccess": true
+    },
+    "leave": {
+      "canAccess": true
+    },
+    "attendance": {
+      "canAccess": true
+    }
+  },
+  "leave": {
+    "canAccess": true,
+    "leaveAdmin": {
+      "canAccess": true,
+      "leaveYearSetup": {
+        "canAccess": true
+      },
+      "leavePolicy": {
+        "canAccess": true
+      },
+      "leavePolicyEmployeeWise": {
+        "canAccess": true
+      },
+      "employeeLeaveOpening": {
+        "canAccess": true
+      },
+      "yearEnd": {
+        "canAccess": true
+      }
+    },
+    "leaveRequest": {
+      "canAccess": true
+    },
+    "leaveRequestList": {
+      "canAccess": true
+    },
+    "leaveApproval": {
+      "canAccess": true
+    },
+    "leaveCalendar": {
+      "canAccess": true
+    },
+    "leaveSetup": {
+      "canAccess": true,
+      "leaveType": {
+        "canAccess": true
+      }
+    },
+    "leavePlanRequest": {
+      "canAccess": true
+    }
+  },
+  "setup": {
+    "canAccess": true,
+    "company": {
+      "canAccess": true,
+      "weeklyOffDays": {
+        "canAccess": true
+      },
+      "shift": {
+        "canAccess": true
+      },
+      "gazettedHolidays": {
+        "canAccess": true
+      },
+      "attendanceFlag": {
+        "canAccess": true
+      }
+    },
+    "employee": {
+      "canAccess": true,
+      "country": { "canAccess": true },
+      "branch": { "canAccess": true },
+      "group": { "canAccess": true },
+      "division": { "canAccess": true },
+      "department": { "canAccess": true },
+      "designation": { "canAccess": true },
+      "employeeCategory": { "canAccess": true },
+      "city": { "canAccess": true },
+      "grade": { "canAccess": true },
+      "function": { "canAccess": true },
+      "subDepartment": { "canAccess": true },
+      "managementLevel": { "canAccess": true },
+      "subManagementLevel": { "canAccess": true },
+      "qualification": { "canAccess": true },
+      "qualificationLevel": { "canAccess": true },
+      "leavingReason": { "canAccess": true },
+      "subLeavingReason": { "canAccess": true },
+      "employeeStatus": { "canAccess": true },
+      "employeeProfile": { "canAccess": true },
+      "employeeTransfer": { "canAccess": true }
+    },
+    "workflow": {
+      "canAccess": true,
+      "userGroup": { "canAccess": true },
+      "workflowGroup": { "canAccess": true },
+      "workflowUserGroup": { "canAccess": true }
+    }
+  },
+  "attendance": {
+    "canAccess": true,
+    "attendanceAdmin": {
+      "canAccess": true,
+      "attendanceRule": {
+        "canAccess": true
+      },
+      "attendanceFlagExemption": {
+        "canAccess": true
+      },
+      "monthEndProcess": {
+        "canAccess": true
+      },
+      "exceptionAttendanceEditing": {
+        "canAccess": true
+      }
+    },
+    "shiftScheduling": {
+      "canAccess": true
+    },
+    "viewAttendance": {
+      "canAccess": true
+    },
+    "employeeShift": {
+      "canAccess": true
+    },
+    "monthCalendar": {
+      "canAccess": true
+    },
+    "officialVisitEntry": {
+      "canAccess": true
+    },
+    "uploadAttendance": {
+      "canAccess": true
+    },
+    "attendanceRequestApproval": {
+      "canAccess": true
+    },
+    "attendanceRequest": {
+      "canAccess": true
+    },
+    "attendanceRequestList": {
+      "canAccess": true
+    }
+  },
+  "security": {
+    "canAccess": true,
+    "manageESSUsers": {
+      "canAccess": true
+    },
+    "manageRights": {
+      "canAccess": true
+    },
+    "manageRoles": {
+      "canAccess": true
+    },
+    "manageUsers": {
+      "canAccess": true
+    },
+    "userProfile": {
+      "canAccess": true
+    }
+  }
+}

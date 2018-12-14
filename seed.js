@@ -1,4 +1,10 @@
 const bcrypt = require('bcrypt-nodejs')
+const adminPrevileges = require('./permissions/admin')
+const supervisorPrevileges = require('./permissions/supervisor')
+const developerPrevileges = require('./permissions/developer')
+console.log('================================')
+console.log(adminPrevileges)
+console.log('================================')
 module.exports = async db => {
 	console.log(db)
 	const {
@@ -37,7 +43,11 @@ module.exports = async db => {
 		AttendanceRule,
 		DefaultShift,
 		ScheduledShift,
+		Role,
+		Permission,
 	} = db
+
+	await Role.bulkCreate([{ roleName: 'supervisor' }, { roleName: 'admin' }, { roleName: 'developer' }])
 
 	await WeeklyOffDays.bulkCreate([
 		{
@@ -502,4 +512,23 @@ module.exports = async db => {
 		{ date: '2018-10-18', shift_id: 1, machineCode: 'AD-123' },
 		{ date: '2017-11-17', shift_id: 2, machineCode: 'AD-124' },
 	])
+
+	// Find all roles and add permissions to respective role.
+	const roles = await Role.findAll({
+		raw: true,
+	})
+
+	const permissionsObject = {
+		admin: JSON.stringify(adminPrevileges),
+		supervisor: JSON.stringify(supervisorPrevileges),
+		developer: JSON.stringify(developerPrevileges),
+	}
+	const permissions = []
+	roles.forEach(role => {
+		permissions.push({ permissions: permissionsObject[role.roleName], roleId: role.role_id })
+	})
+
+	await Permission.bulkCreate(permissions)
+
+	console.log(JSON.stringify(adminPrevileges))
 }

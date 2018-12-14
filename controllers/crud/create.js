@@ -1,7 +1,6 @@
 module.exports = (models) => ({
    execute: async (model, data)=> {
        try {
-        console.log("models", models);
         await models[model].create(data);
         return 1;
        }

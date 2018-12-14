@@ -37,7 +37,15 @@ module.exports = async db => {
 		AttendanceRule,
 		DefaultShift,
 		ScheduledShift,
+		Role
 	} = db
+
+	await Role.bulkCreate([
+		{roleName: "supervisor"},
+        {roleName: "admin"},
+        {roleName: "staff"},
+        {roleName: "developer"},
+    ])
 
 	await WeeklyOffDays.bulkCreate([
 		{

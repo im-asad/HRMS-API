@@ -1,23 +1,18 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("leaveSetup", {
-        leaveSetup_id: {
-            type:Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        title: {
+    return sequelize.define("employeeLeaveOpening", {
+        year: {
             type: Sequelize.STRING
         },
-        prefix: {
+        startDate: {
             type: Sequelize.STRING
         },
-        sortIndex: {
+        endDate: {
             type: Sequelize.INTEGER
         },
-        leaveType: {
+        isCurrentYear: {
             type: Sequelize.STRING
         }
     })
-}
+};

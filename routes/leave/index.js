@@ -32,10 +32,6 @@ module.exports = (sequelize) => {
     router.put("/request", async (req, res) => {
         // TO DO: admin middleware
 
-
-        // find attendances of that employee on that day
-        // mark their status as Leave
-
         // params: machineCode, leaveRequest_id, 
 
         let request = await models.LeaveRequest.findOne({
@@ -47,7 +43,6 @@ module.exports = (sequelize) => {
         if (!request) {
             return res.sendStatus(400);
         }
-
 
 
         let machineCode = request.requester_id;
@@ -66,6 +61,8 @@ module.exports = (sequelize) => {
             await employee.update({
                 leaveBalance: employee.leaveBalance + 1
             });
+
+
             return res.sendStatus(200);
         } else if (req.body.data.status === "accepted") {
             // TO DO: set approver id
@@ -73,31 +70,21 @@ module.exports = (sequelize) => {
                 status: req.body.status
             });
 
+            // find attendances of that employee on that day
+            // mark their status as Leave
 
-
-
+            await models.Attendance.update({
+                status: "Leave"
+            }, {
+                where: {
+                    machineCode: machineCode,
+                    inDate: request.leaveDate
+                }
+            });
         }
 
-        await models.Attendance.update({
-            actualInTime: req.body.data.inTime,
-            actualOutTime: req.body.data.outTime,
-            actualInDate: req.body.data.inDate,
-            actualOutDate: req.body.data.outDate
-        }, {
-            where: {
-                attendance_id: req.body.data.attendance_id
-            }
-        })
 
-        await models.AttendanceRequest.update({
-            status: req.body.data.status
-        }, {
-            where: {
-                attendanceRequest_id: req.body.data.attendanceRequest_id
-            }
-        });
-
-        res.sendStatus(200);
+        return res.sendStatus(200);
     })
 
     return router

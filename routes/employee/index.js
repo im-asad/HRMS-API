@@ -9,38 +9,16 @@ module.exports = (sequelize, transporter) => {
 
 	router.get('/', async (req, res) => {
 		let employees = await Employee.findAll({})
-		res.json({ status: 200, employees })
-	})
-
-	router.get('/birthdays', async (req, res) => {
-		let employees = await Employee.findAll({
-			where: {
-				$or: [
-					{
-						birthDate: {
-							$lt: moment()
-								.add(3, 'months')
-								.calendar(),
-						},
-					},
-					{
-						birthDate: {
-							$gt: moment()
-								.subtract(3, 'months')
-								.calendar(),
-						},
-					},
-				],
-			},
-			attributes: ['employee_name', 'birthDate'],
-		})
-
-		return employees.map(r => {
-			return r.dataValues
+		res.json({
+			status: 200,
+			employees
 		})
 	})
+
+
 
 	router.post('/create', async (req, res) => {
+
 		// TO DO: check permission
 
 		try {
@@ -56,14 +34,13 @@ module.exports = (sequelize, transporter) => {
 				from: 'nurturebot.mailer@gmail.com',
 				to: 'mdaniyal.kh@gmail.com',
 				subject: 'Your Circle account is now active',
-				text:
-					'Your circle account username: ' +
+				text: 'Your circle account username: ' +
 					data.username +
 					' is now active. Your password is: ' +
 					data.password,
 			}
 
-			transporter.sendMail(mailOptions, function(error, info) {
+			transporter.sendMail(mailOptions, function (error, info) {
 				if (error) {
 					console.log(error)
 					return res.sendStatus(500)
@@ -104,10 +81,20 @@ module.exports = (sequelize, transporter) => {
 		})
 
 		if (updateStatus) {
-			const updatedEmployee = await Employee.findOne({ where: { machineCode } })
-			res.json({ status: 200, employee: updatedEmployee })
+			const updatedEmployee = await Employee.findOne({
+				where: {
+					machineCode
+				}
+			})
+			res.json({
+				status: 200,
+				employee: updatedEmployee
+			})
 		} else {
-			res.json({ status: 500, message: 'Cannot update employee' })
+			res.json({
+				status: 500,
+				message: 'Cannot update employee'
+			})
 		}
 	})
 
@@ -143,11 +130,9 @@ module.exports = (sequelize, transporter) => {
 				where: {
 					machineCode: req.params.code,
 				},
-				include: [
-					{
-						all: true,
-					},
-				],
+				include: [{
+					all: true,
+				}, ],
 			})
 			return res.json(empData.dataValues)
 		} catch (e) {
@@ -242,7 +227,9 @@ module.exports = (sequelize, transporter) => {
 		// TO DO: check admin or machineCode
 
 		let defaultShifts = await models.DefaultShift.findAll({
-			where: { machineCode: req.params.machineCode },
+			where: {
+				machineCode: req.params.machineCode
+			},
 			include: [models.Shift],
 		}).catch(e => {
 			console.log(e)
@@ -255,16 +242,24 @@ module.exports = (sequelize, transporter) => {
 		// TO DO: check admin
 
 		let deletedShift = await models.DefaultShift.find({
-			where: { defaultShift_id: req.body.data.defaultShift_id },
+			where: {
+				defaultShift_id: req.body.data.defaultShift_id
+			},
 		})
 
-		await models.DefaultShift.destroy({ where: { defaultShift_id: req.body.data.defaultShift_id } })
+		await models.DefaultShift.destroy({
+			where: {
+				defaultShift_id: req.body.data.defaultShift_id
+			}
+		})
 		// TO DO: send mail
 		await models.Attendance.destroy({
 			where: {
 				machineCode: deletedShift.machineCode,
 				shift_id: deletedShift.shift_id,
-				inDate: { $gt: moment().toDate() },
+				inDate: {
+					$gt: moment().toDate()
+				},
 			},
 		})
 

@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const moment = require('moment')
 
-
 module.exports = (sequelize, transporter) => {
 	const attendanceController = require('../../controllers/attendance/shifts.js')(sequelize)
 	const models = require('../../models')(sequelize)
@@ -255,10 +254,10 @@ module.exports = (sequelize, transporter) => {
 		// TO DO: check admin
 
 		let deletedShift = await models.DefaultShift.find({
-			where: { defaultShift_id: req.body.data.defaultShift_id },
+			where: { defaultShift_id: req.body.defaultShift_id },
 		})
 
-		await models.DefaultShift.destroy({ where: { defaultShift_id: req.body.data.defaultShift_id } })
+		await models.DefaultShift.destroy({ where: { defaultShift_id: req.body.defaultShift_id } })
 		// TO DO: send mail
 		await models.Attendance.destroy({
 			where: {

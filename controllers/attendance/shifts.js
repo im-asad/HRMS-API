@@ -77,8 +77,8 @@ module.exports = (sequelize) => {
 			})
 		},
 
-		processAttendance: (attendance_id) => {
-			let attendace = await models.Attendance.findOne({
+		processAttendance: async (attendance_id) => {
+			let attendance = await models.Attendance.findOne({
 				where: {
 					attendance_id: attendance_id
 				},

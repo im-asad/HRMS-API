@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const middlewares = require("../../middlewares/auth");
 
 module.exports = sequelize => {
 	const CRUD = require('../../controllers/crud/')(sequelize)
@@ -15,8 +16,6 @@ module.exports = sequelize => {
 		switch (operation) {
 			case 'create':
 				// create entity
-				console.log('===CREATING===')
-				console.log(req.body.data)
 				if (!req.body.data) {
 					return res.sendStatus(400)
 				}
@@ -29,7 +28,6 @@ module.exports = sequelize => {
 				break
 
 			case 'delete':
-				console.log("===DELETING===")
 				// delete entity
 				if (!req.body.id || !req.body.id_key) {
 					return res.sendStatus(400)
@@ -43,7 +41,6 @@ module.exports = sequelize => {
 				break
 
 			case 'update':
-				console.log('===UPDATING===')
 				// update entity
 				status = await CRUD.update.execute(entity, req.body.id, req.body.id_key, req.body.data)
 				if (status === 1) {
@@ -54,7 +51,6 @@ module.exports = sequelize => {
 				break
 
 			case 'read':
-				console.log("=== READING ===");
 				let records = await CRUD.read.execute(entity)
 				if (records !== -1) {
 					return res.json(records)
@@ -71,12 +67,10 @@ module.exports = sequelize => {
 
 
 	router.post("/select", async (req,res)=>{
-		console.log("select request working");
 		let obj = req.body;
 		let promises = [];
 		try {
 			obj.forEach(model=>{
-				console.log(model);
 				let attr = [];
 				attr[0] = [model.attributes[0],"value"];
 				attr[1] = [model.attributes[1], "text"];
@@ -85,7 +79,6 @@ module.exports = sequelize => {
 				));
 				
 			})
-			console.log("awaiting promises");
 			let promiseResults = await Promise.all(promises);
 			let response = {};
 			console.log("promise loop");

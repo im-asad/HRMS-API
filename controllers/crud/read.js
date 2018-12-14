@@ -6,12 +6,9 @@ module.exports = models => ({
 			})
 
 			return records.map(r => {
-				console.log(r)
 				return r.dataValues
 			})
 		} catch (e) {
-			console.log('Could not read model', model)
-			console.log(e)
 			return -1
 		}
 	},

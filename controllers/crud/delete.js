@@ -9,8 +9,6 @@ module.exports = (models) => ({
          return 1;
         }
         catch(e){
-            console.log("Could not delete model", model, "with id", id);
-            console.log(e);
             return -1;
         }
     } 

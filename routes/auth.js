@@ -7,9 +7,8 @@ module.exports = (sequelize) => {
     const auth_secret = process.env.AUTH_SECRET;
     const User = require("../models/user")(sequelize);
     const Employee = require("../models/setup/employee/employee")(sequelize);
-    router.get("/", middlewares.verifyToken, function (req, res) {
-        console.log("REQUEST USER __________________________________ : ", req.user);
-        res.json({message: "API is up and running.", request_user: req.user})
+    router.post("/verify-token", middlewares.verifyToken, function (req, res) {
+        res.json({message: "API is up and running.", status: 200, request_user: req.user})
     });
 
     router.post("/api/login", async (req, res) => {
@@ -17,7 +16,6 @@ module.exports = (sequelize) => {
         const user = await Employee.findOne({where: {username}})
 
         // compare password
-        console.log("LOGIN REQUEST");
         if (!user) {
             res.json({status: 402, message: "User doesn't exist."})
         } else {
@@ -28,7 +26,7 @@ module.exports = (sequelize) => {
                     username, password, employeeName, employeeType, machineCode
                 }
                 const token = jwt.sign({tokenUser}, auth_secret);
-                res.json({status: 200, token})
+                res.json({status: 200, token, request_user: tokenUser})
             } else {
                 res.json({status: 402, message: "Invalid credentials."});
             }

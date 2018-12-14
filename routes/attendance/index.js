@@ -34,7 +34,6 @@ module.exports = (sequelize, transporter) => {
 				res.sendStatus(200)
 			})
 			.catch(e => {
-				console.log(e)
 				res.sendStatus(400)
 			})
 	})

@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("leave-setup", {
+    return sequelize.define("leaveSetup", {
         leaveSetup_id: {
             type:Sequelize.INTEGER,
             primaryKey: true,

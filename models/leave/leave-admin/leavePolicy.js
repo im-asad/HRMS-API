@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define("leave-policy", {
+    return sequelize.define("leavePolicy", {
         leaveYear: {
             type: Sequelize.STRING
         },

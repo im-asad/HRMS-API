@@ -11,8 +11,8 @@ module.exports = (sequelize) => {
     })
 
     DefaultShift.associate = function(models){
-        DefaultShift.belongsTo(models.Shift, {foreignKey: "shift_id"})
-        DefaultShift.belongsTo(models.Employee, {foreignKey: "machineCode"})
+        DefaultShift.belongsTo(models.Shift, {foreignKey: "shift_id", onDelete: "CASCADE"})
+        DefaultShift.belongsTo(models.Employee, {foreignKey: "machineCode", onDelete: "CASCADE"})
     }
     return DefaultShift;
 }

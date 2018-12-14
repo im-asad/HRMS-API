@@ -33,9 +33,9 @@ module.exports = (sequelize) => {
     })
     
     AttendanceRequest.associate = function(models){
-        AttendanceRequest.belongsTo(models.Attendance, {foreign_key: "attendance_id", onDelete: "CASCADE", hooks: true});
-        AttendanceRequest.belongsTo(models.Employee, {foreign_key: "requester_id", as: "requester", onDelete: "CASCADE", hooks: true});
-        AttendanceRequest.belongsTo(models.Employee, {foreign_key: "approver_id", as: "approver", onDelete: "CASCADE", hooks: true})
+        AttendanceRequest.belongsTo(models.Attendance, {foreignKey: "attendance_id", onDelete: "CASCADE", hooks: true});
+        AttendanceRequest.belongsTo(models.Employee, {foreignKey: "requester_id", sourceKey: "machineCode", as: "requester", onDelete: "CASCADE", hooks: true});
+        AttendanceRequest.belongsTo(models.Employee, {foreignKey: "approver_id", sourceKey: "machineCode", as: "approver", onDelete: "CASCADE", hooks: true})
     }
 
     return AttendanceRequest;

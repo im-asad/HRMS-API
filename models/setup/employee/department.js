@@ -26,7 +26,7 @@ module.exports = sequelize => {
 
 	Department.associate = function(models) {
 		Department.belongsTo(models.WorkflowGroup, {
-			foreign_key: 'workflowgroup_id',
+			foreignKey: 'workflowgroup_id', onDelete: "CASCADE"
 		})
 	}
 	return Department

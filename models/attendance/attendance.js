@@ -51,7 +51,7 @@ module.exports = (sequelize) => {
     Attendance.associate = function (models) {
         Attendance.belongsTo(models.Employee, {
             foreignKey: "machineCode",
-            onDelete: "CASCADE",
+            onDelete: "SET NULL",
             hook: true
         });
 

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 var cloudinary = require('cloudinary')
 const dotenv = require('dotenv')
 const Sequelize = require('sequelize')
+const seedDB = require('./seed');
 
 dotenv.config()
 
@@ -63,8 +64,10 @@ app.use('/attendance', attendance_routes);
 app.use('/employee', employee_routes)
 
 require('./models/relationships.js')(sequelize)
-sequelize.sync();
-
+sequelize.sync({force: true}).then(() => {
+    const models = require('./models/')(sequelize)
+	seedDB(models);
+})
 // middleware for protected routes
 app.listen(2200, () => {
 	console.log('API Server Running.')

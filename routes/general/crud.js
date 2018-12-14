@@ -16,6 +16,7 @@ module.exports = sequelize => {
 			case 'create':
 				// create entity
 				console.log('===CREATING===')
+				console.log(req.body.data)
 				if (!req.body.data) {
 					return res.sendStatus(400)
 				}
@@ -75,14 +76,16 @@ module.exports = sequelize => {
 		let promises = [];
 		try {
 			obj.forEach(model=>{
+				console.log(model);
 				let attr = [];
 				attr[0] = [model.attributes[0],"value"];
 				attr[1] = [model.attributes[1], "text"];
 				promises.push(models[model.model].findAll(
 					{attributes: attr}
-				))
+				));
+				
 			})
-			console.log("awaiting ;promises");
+			console.log("awaiting promises");
 			let promiseResults = await Promise.all(promises);
 			let response = {};
 			console.log("promise loop");

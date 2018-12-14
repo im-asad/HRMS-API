@@ -53,25 +53,16 @@ module.exports = (sequelize) => {
 				}
 	},
 
-	addCustomShift: async (shift_id, machineCode, date) => {
+	addCustomShift: (shift_id, machineCode, date) => {
 		date = moment(date);
 		let nextDay = moment(date);
 		nextDay.add(1, "day");
 
-		let defaultShift = await models.Shift.findOne({where:{shift_id: shift_id}});
 		models.Attendance.create({
 			inDate: date.toDate(),
-			outDate: (Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending)) ? nextDay.toDate() : date.toDate(),
+			outDate: (Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending)) ? nextDay.toDate() : startDate.toDate(),
 			machineCode: machineCode,
 			shift_id: shift_id
-		}).catch(e=>console.log)
-	},
-
-	removeScheduledShift: (attendance_Id) =>{
-		models.Attendance.destroy({
-			where: {
-				attendance_Id: attendance_Id
-			}
 		})
 	}
 

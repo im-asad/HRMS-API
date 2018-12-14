@@ -249,7 +249,7 @@ module.exports = async db => {
 		{ from: '11:00', to: '18:00', shiftType: 'Shift Type-3', shift_id: 2, attendanceFlag_id: 3 },
 	])
 
-	await EmployeeLeaveOpening.bulkCreate([
+	/* 	await EmployeeLeaveOpening.bulkCreate([
 		{
 			leaveYear: '2018',
 			leaveType: 'Leave Type-1',
@@ -274,26 +274,25 @@ module.exports = async db => {
 			leaveFrom: '2018-09-10',
 			leaveTo: '2018-10-1',
 		},
-	])
-
+	]) 
 	await LeaveSetup.bulkCreate([
 		{ title: 'Setup title-1', sortIndex: 20, prefix: 'Prefix-1', leaveType: 'Leave Type-1' },
 		{ title: 'Setup title-2', sortIndex: 10, prefix: 'Prefix-2', leaveType: 'Leave Type-2' },
 		{ title: 'Setup title-3', sortIndex: 0, prefix: 'Prefix-3', leaveType: 'Leave Type-1' },
 	])
-	// await LeavePolicy.bulkCreate([
-	//     {}
-	// ])
-	//
-	// await LeavePolicyEmployeeWise.bulkCreate([
-	//     {}
-	// ])
+	await LeavePolicy.bulkCreate([
+	    {}
+	])
+	
+	await LeavePolicyEmployeeWise.bulkCreate([
+	    {}
+	])
 
-	// await LeaveYearSetup.bulkCreate([
-	//     {year: "2018", startDate: "2018-10-10", endDate: "2018-12-13", isCurrentYear: 0},
-	//     {year: "2018", startDate: "2018-10-12", endDate: "2018-12-14", isCurrentYear: 1},
-	//     {year: "2018", startDate: "2018-10-18", endDate: "2018-12-21", isCurrentYear: 0},
-	// ])
+	await LeaveYearSetup.bulkCreate([
+	    {year: "2018", startDate: "2018-10-10", endDate: "2018-12-13", isCurrentYear: 0},
+	    {year: "2018", startDate: "2018-10-12", endDate: "2018-12-14", isCurrentYear: 1},
+	    {year: "2018", startDate: "2018-10-18", endDate: "2018-12-21", isCurrentYear: 0},
+	])
 
 	await LeavePlanRequest.bulkCreate([
 		{
@@ -371,7 +370,7 @@ module.exports = async db => {
 			leaveFrom: '2018-10-11',
 			leaveTo: '2018-10-17',
 		},
-	])
+	]) */
 
 	const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS))
 	const hash = bcrypt.hashSync('1234', salt)

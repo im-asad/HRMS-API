@@ -264,7 +264,7 @@ module.exports = (sequelize, transporter) => {
 			where: {
 				machineCode: deletedShift.machineCode,
 				shift_id: deletedShift.shift_id,
-				inDate: { $gt: moment().toDate() },
+				inDate: { [Op.gt]: moment().toDate() },
 			},
 		})
 

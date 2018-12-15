@@ -5,7 +5,5 @@ module.exports = sequelize => {
 	var securityModels = require('./security/')(sequelize)
 	var models = Object.assign({}, setupModels /* , leaveModels */, attendanceModels, securityModels)
 
-	console.log(models)
-
 	return models
 }

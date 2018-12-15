@@ -36,10 +36,12 @@ module.exports = (sequelize, transporter) => {
 
     router.post('/request', async (req, res) => {
         // create attendance request
-        // attendance.requester_id = req.user.machineCode
+
 
         let attendance = req.body.data
         attendance.status = 'pending'
+        // attendance.requester_id = req.user.machineCode
+        attendance.requester_id = "AD-123";
         models.AttendanceRequest.create(attendance)
             .then(() => {
                 res.sendStatus(200)

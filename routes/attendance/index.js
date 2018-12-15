@@ -107,31 +107,38 @@ module.exports = (sequelize, transporter) => {
     router.put('/attendanceRequest', async (req, res) => {
         // TO DO: admin middleware
 
-        let employee = await models.Employee.findOne({
-            where: {
-                machineCode: req.body.data.requester_id
-            }
-        });
+
 
         // let approver_id = req.user.machineCode
         let approver_id = "AD-123";
 
+        let request = await models.AttendanceRequest.findOne({
+            where: {
+                attendanceRequest_id: req.body.data.attendanceRequest_id
+            }
+        })
+
+        let employee = await models.Employee.findOne({
+            where: {
+                machineCode: request.requester_id
+            }
+        });
 
         if (req.body.data.status === "accepted") {
             await models.Attendance.update({
-                actualInTime: req.body.data.inTime,
-                actualOutTime: req.body.data.outTime,
-                actualInDate: req.body.data.inDate,
-                actualOutDate: req.body.data.outDate,
+                actualInTime: request.inTime,
+                actualOutTime: request.outTime,
+                actualInDate: request.inDate,
+                actualOutDate: request.outDate,
             }, {
                 where: {
-                    attendance_id: req.body.data.attendance_id
+                    attendance_id: request.attendance_id
                 }
             })
 
             // TO DO: Send mail
             let accept_html = "<p>Hello ${name}</p><p>Your attendance request with id ${id} has been accepted!</p>";
-            let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", req.body.data.attendance_id);
+            let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.attendance_id);
             const mailOptions = {
                 from: 'Circle Bot <mailer.circle@gmail.com>',
                 to: employee.email,
@@ -151,7 +158,7 @@ module.exports = (sequelize, transporter) => {
         if (req.body.data.status === "declined") {
             // TO DO: Send mail
             let decline_html = "<p>Hello ${name}</p><p>Your attendance request with id ${id} has been declined!</p>";
-            let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", req.body.data.attendance_id);
+            let formatted_html = decline_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.attendance_id);
             const mailOptions = {
                 from: 'Circle Bot <mailer.circle@gmail.com>',
                 to: employee.email,

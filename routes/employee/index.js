@@ -134,6 +134,7 @@ module.exports = (sequelize, transporter) => {
 			})
 			return res.json(empData.dataValues)
 		} catch (e) {
+			console.log(e)
 			console.log('ERROR FETCHING PROFILE')
 			return res.sendStatus(400)
 		}

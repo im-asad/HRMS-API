@@ -45,12 +45,10 @@ module.exports = (sequelize, transporter) => {
 					console.log(error)
 					return res.sendStatus(500)
 				} else {
-					console.log('Email sent: ' + info.response)
 					return res.sendStatus(200)
 				}
 			})
 		} catch (e) {
-			console.log('ERROR CREATING EMPLOYEE:', e)
 			return res.sendStatus(400)
 		}
 	})
@@ -136,20 +134,18 @@ module.exports = (sequelize, transporter) => {
 			})
 			return res.json(empData.dataValues)
 		} catch (e) {
+			console.log(e)
 			console.log('ERROR FETCHING PROFILE')
 			return res.sendStatus(400)
 		}
 	})
 
 	router.post('/shifts/create', async (req, res) => {
-		console.log('Creating shift')
 		let obj = req.body.data
 		let shiftDetails = obj.shiftDetails
 		delete obj['shiftDetails']
 		await models.Shift.create(obj).then(createdShift => {
-			console.log('=== SHIFT CREATED ===')
 			shiftDetails.forEach(shift => {
-				console.log('=== CREATING SHIFT FLAG ===')
 				models.ShiftFlag.create({
 					shift_id: createdShift.shift_id,
 					from: shift.from,

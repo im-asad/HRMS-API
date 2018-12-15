@@ -2,11 +2,7 @@ const bcrypt = require('bcrypt-nodejs')
 const adminPrevileges = require('./permissions/admin')
 const supervisorPrevileges = require('./permissions/supervisor')
 const developerPrevileges = require('./permissions/developer')
-console.log('================================')
-console.log(adminPrevileges)
-console.log('================================')
 module.exports = async db => {
-	console.log(db)
 	const {
 		Branch,
 		City,
@@ -245,20 +241,16 @@ module.exports = async db => {
 	])
 
 	await Division.bulkCreate([{
-			designation: 'Division-1',
-			designation_prefix: 'Div-1'
+			division: 'Division-1'
 		},
 		{
-			designation: 'Division-2',
-			designation_prefix: 'Div-2'
+			division: 'Division-2'
 		},
 		{
-			designation: 'Division-3',
-			designation_prefix: 'Div-3'
+			division: 'Division-3'
 		},
 		{
-			designation: 'Division-4',
-			designation_prefix: 'Div-4'
+			division: 'Division-4'
 		},
 	])
 

@@ -7,12 +7,9 @@ module.exports = sequelize => {
 
 	
 	let handleRequest = async (req, res) => {
-
-		console.log("\n\n\n ======================================= \n THIS IS THE REQUEST: \n\n", req.headers, "\n\n\n ================================================\n")
-
+		console.log(req.body)
 		const entity = req.params.entity
 		const operation = req.params.operation
-
 
 		let status
 		switch (operation) {
@@ -83,11 +80,9 @@ module.exports = sequelize => {
 			})
 			let promiseResults = await Promise.all(promises);
 			let response = {};
-			console.log("promise loop");
 			promiseResults.forEach((result, index)=>{
 				response[obj[index].id] = result;
 			})
-			console.log("sending result");
 			return res.json(response);
 		}
 

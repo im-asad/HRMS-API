@@ -12,6 +12,11 @@ module.exports = (sequelize, transporter) => {
 		res.json({ status: 200, employees })
 	})
 
+	router.get('/employee-names', async (req, res) => {
+		let employees = await Employee.findAll({attributes: ['employeeName', 'machineCode']})
+		res.json({ status: 200, employees })
+	})
+
 	router.get('/birthdays', async (req, res) => {
 		let employees = await Employee.findAll({
 			where: {
@@ -68,12 +73,10 @@ module.exports = (sequelize, transporter) => {
 					console.log(error)
 					return res.sendStatus(500)
 				} else {
-					console.log('Email sent: ' + info.response)
 					return res.sendStatus(200)
 				}
 			})
 		} catch (e) {
-			console.log('ERROR CREATING EMPLOYEE:', e)
 			return res.sendStatus(400)
 		}
 	})
@@ -157,14 +160,11 @@ module.exports = (sequelize, transporter) => {
 	})
 
 	router.post('/shifts/create', async (req, res) => {
-		console.log('Creating shift')
 		let obj = req.body.data
 		let shiftDetails = obj.shiftDetails
 		delete obj['shiftDetails']
 		await models.Shift.create(obj).then(createdShift => {
-			console.log('=== SHIFT CREATED ===')
 			shiftDetails.forEach(shift => {
-				console.log('=== CREATING SHIFT FLAG ===')
 				models.ShiftFlag.create({
 					shift_id: createdShift.shift_id,
 					from: shift.from,

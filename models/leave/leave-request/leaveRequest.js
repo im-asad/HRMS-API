@@ -38,4 +38,5 @@ module.exports = (sequelize) => {
             hooks: true
         })
     }
+    return LeaveRequest;
 };

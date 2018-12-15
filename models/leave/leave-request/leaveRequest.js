@@ -8,9 +8,6 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        leaveDate: {
-            type: Sequelize.STRING
-        },
         status: {
             type: Sequelize.STRING,
             defaultValue: "pending"

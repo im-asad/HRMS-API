@@ -500,38 +500,9 @@ module.exports = async db => {
 		{ fromLeaveYear: '2018', toLeaveYear: '2018' },
 		{ fromLeaveYear: '2017', toLeaveYear: '2019' },
 		{ fromLeaveYear: '2017', toLeaveYear: '2018' },
-	])
-
-	await LeaveRequest.bulkCreate([
-		{
-			leaveYear: '2018',
-			leaveType: 'Leave Type-1',
-			balance: 10,
-			isShortLeave: 1,
-			shortLeaveValue: 2.1,
-			shortLeaveTime: 'Short-time leave',
-			leaveFrom: '2018-10-10',
-			leaveTo: '2018-10-17',
-		},
-		{
-			leaveYear: '2018',
-			leaveType: 'Leave Type-2',
-			balance: 12,
-			isShortLeave: 0,
-			leaveFrom: '2018-10-12',
-			leaveTo: '2018-10-14',
-		},
-		{
-			leaveYear: '2018',
-			leaveType: 'Leave Type-3',
-			balance: 0,
-			isShortLeave: 1,
-			shortLeaveValue: 2.1,
-			shortLeaveTime: 'Short-time leave',
-			leaveFrom: '2018-10-11',
-			leaveTo: '2018-10-17',
-		},
 	]) */
+
+
 
 	const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS))
 	const hash = bcrypt.hashSync('1234', salt)
@@ -646,7 +617,7 @@ module.exports = async db => {
 		inTime: '13:00',
 		outTime: '21:00',
 		description: 'Description AR',
-		status: 'AR Status',
+		status: 'pending',
 		attendance_id: 1,
 		requester_id: 'AD-123',
 		approver_id: 'AD-124',
@@ -692,7 +663,22 @@ module.exports = async db => {
 		})
 	})
 
+	await LeaveRequest.bulkCreate([{
+			status: "pending",
+			attendance_id: 1,
+			requester_id: "AD-123",
+			description: "Request one"
+		},
+		{
+			status: "pending",
+			attendance_id: 3,
+			requester_id: "AD-123",
+			description: "Request two"
+		},
+	]);
+
 	await Permission.bulkCreate(permissions)
+
 
 	console.log(JSON.stringify(adminPrevileges))
 }

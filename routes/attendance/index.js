@@ -71,7 +71,7 @@ module.exports = (sequelize, transporter) => {
 
         let requests = await sequelize.query(
             `SELECT * FROM attendanceRequests
-         INNER JOIN attendances ON attendanceRequests.attendanceAttendanceId=attendances.attendance_id
+         INNER JOIN attendances ON attendanceRequests.attendance_id=attendances.attendance_id
          WHERE attendanceRequests.status = "${status}" AND attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `, {
                 type: sequelize.QueryTypes.SELECT
             }
@@ -83,12 +83,20 @@ module.exports = (sequelize, transporter) => {
     router.get("/attendanceRequest", async (req, res) => {
 
         // let machineCode = req.user.machineCode
-        machineCode = "AD-124";
+        machineCode = "AD-123";
 
         let requests = await models.AttendanceRequest.findAll({
             where: {
-                requester_id: req.params.machineCode
-            }
+                requester_id: machineCode
+            },
+            include: [{
+                    model: models.Employee,
+                    as: "approver",
+                },
+                {
+                    model: models.Attendance
+                }
+            ]
         })
 
         return res.json(requests);

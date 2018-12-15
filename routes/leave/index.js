@@ -73,8 +73,8 @@ module.exports = (sequelize, transporter) => {
                 leaveBalance: parseInt(employee.leaveBalance) + 1,
             })
             console.log(employee.email);
-            let decline_html = "<p>Hello ${name}</p> <p>Your leave request with id ${id} for the date ${date} was declined.</p>";
-            let formatted_html = decline_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.leaveRequest_id).replace("${date}", request.leaveDate);
+            let decline_html = "<p>Hello ${name}</p> <p>Your leave request with id ${id} was declined.</p>";
+            let formatted_html = decline_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.leaveRequest_id);
             const mailOptions = {
                 from: 'Circle Bot <mailer.circle@gmail.com>',
                 to: employee.email,
@@ -110,8 +110,8 @@ module.exports = (sequelize, transporter) => {
             })
         }
 
-        let accept_html = "<p>Hello ${name}</p> <p>Your leave request with id ${id} for the date ${date} was accepted!</p>";
-        let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.leaveRequest_id).replace("${date}", request.leaveDate);
+        let accept_html = "<p>Hello ${name}</p> <p>Your leave request with id ${id} was accepted!</p>";
+        let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.leaveRequest_id);
         const mailOptions = {
             from: 'Circle Bot <mailer.circle@gmail.com>',
             to: employee.email,
@@ -133,12 +133,20 @@ module.exports = (sequelize, transporter) => {
     router.get("/request", async (req, res) => {
 
         // TO DO: get requester machine code from header
-        let machineCode = "AD-124";
+        let machineCode = "AD-123";
 
-        let requests = await models.LeaveRequest.findOne({
+        let requests = await models.LeaveRequest.findAll({
             where: {
                 requester_id: machineCode
-            }
+            },
+            include: [{
+                    model: models.Employee,
+                    as: "approver"
+                },
+                {
+                    model: models.Attendance
+                }
+            ]
         });
         return res.json(requests);
     })
@@ -147,10 +155,21 @@ module.exports = (sequelize, transporter) => {
 
         // TO DO: admin middleware
 
-        let requests = await models.LeaveRequest.findAll({});
+        let requests = await models.LeaveRequest.findAll({
+            include: [{
+                    model: models.Employee,
+                    as: "requester"
+                },
+                {
+                    model: models.Attendance,
+                    include: [models.Shift]
+                }
+            ]
+        });
 
         return res.json(requests);
     })
+
 
     return router
 }

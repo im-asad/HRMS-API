@@ -71,9 +71,13 @@ module.exports = (sequelize, transporter) => {
                     [Op.between]: [from, to]
                 }
             },
-            include: [models.Attendance, {
+            include: [{
+                model: models.Attendance,
+                include: [models.Shift]
+            }, {
                 model: models.Employee,
-                as: "requester"
+                as: "requester",
+                include: [models.Department]
             }]
         }).catch(e => {
             console.log(e);

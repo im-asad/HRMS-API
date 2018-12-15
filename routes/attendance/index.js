@@ -77,7 +77,7 @@ module.exports = (sequelize, transporter) => {
             }, {
                 model: models.Employee,
                 as: "requester",
-                include: [models.Department]
+                include: [models.Department, models.Designation]
             }]
         }).catch(e => {
             console.log(e);

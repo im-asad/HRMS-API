@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
         status: {
             type: Sequelize.STRING,
             defaultValue: "pending"
+        },
+        description: {
+            type: Sequelize.STRING
         }
     })
 

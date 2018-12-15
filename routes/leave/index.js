@@ -18,6 +18,10 @@ module.exports = sequelize => {
         if (employee.leaveBalance < 1) {
             return res.sendStatus(429)
         }
+        await employee.update({
+            leaveBalance: employee.leaveBalance - 1
+        });
+
         models.LeaveRequest.create(leave)
             .then(() => {
                 res.sendStatus(200)

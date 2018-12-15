@@ -69,7 +69,7 @@ module.exports = sequelize => {
 		},
 	})
 
-	Employee.associate = function(models) {
+	Employee.associate = function (models) {
 		Employee.belongsTo(models.Designation, {
 			foreignKey: 'designation_id',
 			onDelete: 'CASCADE',

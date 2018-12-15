@@ -8,7 +8,7 @@ const seedDB = require('./seed');
 
 dotenv.config()
 
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 		user: 'nurturebot.mailer@gmail.com',
 		pass: 'nurturebot7412',
 	},
-})
+});
 
 const {
 	DB_NAME,
@@ -26,19 +26,19 @@ const {
 	CLOUDINARY_CLOUD_NAME,
 	CLOUDINARY_API_KEY,
 	CLOUDINARY_API_SECRET,
-} = process.env
+} = process.env;
 
 const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 	host: DB_HOST,
 	dialect: 'mysql',
 	operatorsAliases: false,
-})
+});
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*')
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
 	next()
-})
+});
 
 cloudinary.config({
 	cloud_name: CLOUDINARY_CLOUD_NAME,
@@ -47,25 +47,29 @@ cloudinary.config({
 })
 
 // importing routes
-const auth_routes = require('./routes/auth')(sequelize)
-const crud_routes = require('./routes/general/crud')(sequelize)
-const employee_routes = require('./routes/employee')(sequelize, transporter)
-const attendance_routes = require('./routes/attendance')(sequelize, transporter)
+const auth_routes = require('./routes/auth')(sequelize);
+const crud_routes = require('./routes/general/crud')(sequelize);
+const employee_routes = require('./routes/employee')(sequelize, transporter);
+const attendance_routes = require('./routes/attendance')(sequelize, transporter);
+const leave_routes = require('./routes/attendance')(sequelize, transporter);
 app.use(
 	bodyParser.urlencoded({
 		extended: true,
 	})
-)
+);
 
-app.use(bodyParser.json())
-app.use(auth_routes)
-app.use(crud_routes)
+app.use(bodyParser.json());
+app.use(auth_routes);
+app.use(crud_routes);
 app.use('/attendance', attendance_routes);
-app.use('/employee', employee_routes)
+app.use('/employee', employee_routes);
+app.use('/leave', leave_routes);
 
 require('./models/relationships.js')(sequelize)
-sequelize.sync({force: true}).then(() => {
-    const models = require('./models/')(sequelize)
+sequelize.sync({
+	force: true
+}).then(() => {
+	const models = require('./models/')(sequelize)
 	seedDB(models);
 })
 // middleware for protected routes

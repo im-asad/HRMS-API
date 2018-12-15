@@ -143,7 +143,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests);
     })
 
-    router.get("/request/all", (req, res) => {
+    router.get("/request/all", async (req, res) => {
 
         // TO DO: admin middleware
 

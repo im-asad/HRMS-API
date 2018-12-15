@@ -13,8 +13,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
-		user: 'nurturebot.mailer@gmail.com',
-		pass: 'nurturebot7412',
+		user: 'mailer.circle@gmail.com',
+		pass: 'circlemailer6969',
 	},
 });
 
@@ -51,7 +51,7 @@ const auth_routes = require('./routes/auth')(sequelize);
 const crud_routes = require('./routes/general/crud')(sequelize);
 const employee_routes = require('./routes/employee')(sequelize, transporter);
 const attendance_routes = require('./routes/attendance')(sequelize, transporter);
-const leave_routes = require('./routes/attendance')(sequelize, transporter);
+const leave_routes = require('./routes/leave')(sequelize, transporter);
 app.use(
 	bodyParser.urlencoded({
 		extended: true,

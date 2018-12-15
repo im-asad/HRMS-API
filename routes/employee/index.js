@@ -243,13 +243,13 @@ module.exports = (sequelize, transporter) => {
 
 		let deletedShift = await models.DefaultShift.find({
 			where: {
-				defaultShift_id: req.body.data.defaultShift_id
+				defaultShift_id: req.body.defaultShift_id
 			},
 		})
 
 		await models.DefaultShift.destroy({
 			where: {
-				defaultShift_id: req.body.data.defaultShift_id
+				defaultShift_id: req.body.defaultShift_id
 			}
 		})
 		// TO DO: send mail

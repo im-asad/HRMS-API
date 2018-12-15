@@ -2,30 +2,44 @@ const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
     // Relationship to be established between requisitioner, approver and this model
-    return sequelize.define("leaveRequest", {
-        leaveYear: {
+    const LeaveRequest = sequelize.define("leaveRequest", {
+        leaveRequest_id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        leaveDate: {
             type: Sequelize.STRING
         },
-        leaveType: {
+        status: {
+            type: Sequelize.STRING,
+            defaultValue: "pending"
+        },
+        description: {
             type: Sequelize.STRING
-        },
-        balance: {
-            type: Sequelize.FLOAT
-        },
-        isShortLeave: {
-            type: Sequelize.BIGINT
-        },
-        shortLeaveValue: {
-            type: Sequelize.FLOAT
-        },
-        shortLeaveTime: {
-            type: Sequelize.STRING
-        },
-        leaveFrom: {
-            type: Sequelize.DATE
-        },
-        leaveTo: {
-            type: Sequelize.DATE
         }
     })
+
+    LeaveRequest.associate = function (models) {
+        LeaveRequest.belongsTo(models.Attendance, {
+            foreignKey: "attendance_id",
+            onDelete: "CASCADE",
+            hooks: true
+        });
+        LeaveRequest.belongsTo(models.Employee, {
+            foreignKey: "requester_id",
+            sourceKey: "machineCode",
+            as: "requester",
+            onDelete: "CASCADE",
+            hooks: true
+        });
+        LeaveRequest.belongsTo(models.Employee, {
+            foreignKey: "approver_id",
+            sourceKey: "machineCode",
+            as: "approver",
+            onDelete: "CASCADE",
+            hooks: true
+        })
+    }
+    return LeaveRequest;
 };

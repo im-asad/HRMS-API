@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 module.exports = (sequelize) => {
     // Relationship to be established between requisitioner, approver and this model
     return sequelize.define("leavePolicy", {
-        leave_days: {
+        leaveDays: {
             type: Sequelize.INTEGER,
         },
         absentPenalty: {

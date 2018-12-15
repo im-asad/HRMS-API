@@ -58,7 +58,6 @@ module.exports = (sequelize, transporter) => {
         // if (!(req.user.userType === "admin")) {
         //     return res.sendStatus(401);
         // }
-        let status = req.query.status
         let from = moment(req.query.from)
             .startOf('day')
             .format('YYYY-MM-DD HH:mm')
@@ -66,18 +65,28 @@ module.exports = (sequelize, transporter) => {
             .endOf('day')
             .format('YYYY-MM-DD HH:mm')
 
-        // let requests = await models.AttendanceRequest.findAll({where: {status:status,
-        // createdAt: {
-        //     $between: [from.toDate(), to.toDate()]
-        // }}, include: [models.Attendance]}).catch(e=>{console.log(e); return res.sendStatus(400)})
+        let requests = await models.AttendanceRequest.findAll({
+            where: {
+                createdAt: {
+                    [Op.between]: [from, to]
+                }
+            },
+            include: [models.Attendance, {
+                model: models.Employee,
+                as: "requester"
+            }]
+        }).catch(e => {
+            console.log(e);
+            return res.sendStatus(400)
+        })
 
-        let requests = await sequelize.query(
-            `SELECT * FROM attendanceRequests
-         INNER JOIN attendances ON attendanceRequests.attendance_id=attendances.attendance_id
-         WHERE attendanceRequests.status = "${status}" AND attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `, {
-                type: sequelize.QueryTypes.SELECT
-            }
-        )
+        // let requests = await sequelize.query(
+        //     `SELECT * FROM attendanceRequests
+        //  INNER JOIN attendances ON attendanceRequests.attendance_id=attendances.attendance_id
+        //  WHERE attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `, {
+        //         type: sequelize.QueryTypes.SELECT
+        //     }
+        // )
 
         return res.json(requests)
     })

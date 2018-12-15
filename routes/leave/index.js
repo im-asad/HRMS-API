@@ -3,8 +3,26 @@ const moment = require('moment')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
+
+
+
 module.exports = (sequelize, transporter) => {
     const models = require('../../models')(sequelize)
+
+    function upsert_policy(values, condition) {
+        return models.LeavePolicy
+            .findOne({
+                where: condition
+            })
+            .then(function (obj) {
+                if (obj) { // update
+                    return obj.update(values);
+                } else { // insert
+                    return Model.create(values);
+                }
+            });
+    }
+
 
     router.post('/request', async (req, res) => {
         console.log("=== LEAVE REQUEST ROUTE ===");
@@ -168,6 +186,13 @@ module.exports = (sequelize, transporter) => {
         });
 
         return res.json(requests);
+    });
+
+    router.post("/policy", async (req, res) => {
+        upsert_policy(req.body.data, {
+            id: 1
+        });
+        return res.sendStatus(200);
     })
 
 

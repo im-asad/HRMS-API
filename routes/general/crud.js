@@ -8,6 +8,8 @@ module.exports = sequelize => {
 	
 	let handleRequest = async (req, res) => {
 
+		console.log("\n\n\n ======================================= \n THIS IS THE REQUEST: \n\n", req.headers, "\n\n\n ================================================\n")
+
 		const entity = req.params.entity
 		const operation = req.params.operation
 

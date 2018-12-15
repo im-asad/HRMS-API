@@ -2,20 +2,25 @@ const jwt = require("jsonwebtoken");
 module.exports = {
     verifyToken: (req, res, next) => {
         const bearerHeader = req.headers["authorization"];
+        console.log(bearerHeader)
         if (bearerHeader) {
             const token = bearerHeader.split(" ")[1];
-            try {
-                const decoded = jwt.verify(token, process.env.AUTH_SECRET);
-                if (decoded) {
-                    req.user = decoded.tokenUser;
-                    next();
-                } else {
-                    res.json({err: "Authentication failed!", status: 402})
-                }
-            } catch(err) {
-                // err
-                console.log(err)
-                res.json({err: "Invalid Token", status: 402})
+            if (token) {
+				try {
+					const decoded = jwt.verify(token, process.env.AUTH_SECRET);
+					if (decoded) {
+						req.user = decoded.tokenUser;
+						next();
+					} else {
+						res.json({err: "Authentication failed!", status: 402})
+					}
+				} catch(err) {
+					// err
+					console.log(err)
+					res.json({err: "Invalid Token", status: 402})
+				}
+            } else {
+				res.json({err: "No token found in request.", status: 402})
             }
         } else {
             // response error with status 400;

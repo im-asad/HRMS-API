@@ -5,7 +5,6 @@ const middlewares = require("../middlewares/auth");
 
 module.exports = (sequelize) => {
     const auth_secret = process.env.AUTH_SECRET;
-    const User = require("../models/user")(sequelize);
     const Employee = require("../models/setup/employee/employee")(sequelize);
     router.post("/verify-token", middlewares.verifyToken, async (req, res) => {
         const employee = await Employee.findOne({where: {machineCode: req.user.machineCode}, include: [{ all: true }]})
@@ -14,7 +13,7 @@ module.exports = (sequelize) => {
 
     router.post("/api/login", async (req, res) => {
         const { username, password } = req.body;
-        const user = await Employee.findOne({where: {username}})
+        const user = await Employee.findOne({where: {username}, include: [{all: true}]})
 
         // compare password
         if (!user) {

@@ -52,7 +52,7 @@ module.exports = (sequelize, transporter) => {
             })
     })
 
-    router.get('/attendanceRequest/all', async (req, res) => {
+    router.get('/request/all', async (req, res) => {
         // TO DO: admin middleware
 
         // if (!(req.user.userType === "admin")) {
@@ -95,7 +95,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests)
     })
 
-    router.get("/attendanceRequest", async (req, res) => {
+    router.get("/request", async (req, res) => {
 
         // let machineCode = req.user.machineCode
         machineCode = "AD-123";
@@ -117,7 +117,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests);
     })
 
-    router.put('/attendanceRequest', async (req, res) => {
+    router.put('/request', async (req, res) => {
         // TO DO: admin middleware
 
 

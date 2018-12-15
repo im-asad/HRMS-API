@@ -1,3 +1,4 @@
+const faker = require('faker')
 const bcrypt = require('bcrypt-nodejs')
 const adminPrevileges = require('./permissions/admin')
 const supervisorPrevileges = require('./permissions/supervisor')
@@ -518,7 +519,7 @@ module.exports = async db => {
 			leavingDate: '2010-12-10',
 			confirmationDate: '2010-10-10',
 			joiningDate: '2010-10-10',
-			profileImage: '',
+			profileImage: faker.internet.avatar(),
 			designation_id: 1,
 			branch_id: 2,
 			department_id: 1,
@@ -550,7 +551,7 @@ module.exports = async db => {
 			leavingDate: '2010-12-10',
 			confirmationDate: '2010-10-10',
 			joiningDate: '2010-10-10',
-			profileImage: '',
+			profileImage: faker.internet.avatar(),
 			designation_id: 2,
 			branch_id: 1,
 			department_id: 3,

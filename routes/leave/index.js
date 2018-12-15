@@ -16,9 +16,10 @@ module.exports = (sequelize, transporter) => {
             })
             .then(function (obj) {
                 if (obj) { // update
-                    return obj.update(values);
+                    console.log("object exists. updating");
+                    return obj.update(values).catch(e => console.log);
                 } else { // insert
-                    return Model.create(values);
+                    return models.LeavePolicy.create(values);
                 }
             });
     }

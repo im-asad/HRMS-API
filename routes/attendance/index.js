@@ -52,13 +52,12 @@ module.exports = (sequelize, transporter) => {
             })
     })
 
-    router.get('/attendanceRequest/all', async (req, res) => {
+    router.get('/request/all', async (req, res) => {
         // TO DO: admin middleware
 
         // if (!(req.user.userType === "admin")) {
         //     return res.sendStatus(401);
         // }
-        let status = req.query.status
         let from = moment(req.query.from)
             .startOf('day')
             .format('YYYY-MM-DD HH:mm')
@@ -66,23 +65,37 @@ module.exports = (sequelize, transporter) => {
             .endOf('day')
             .format('YYYY-MM-DD HH:mm')
 
-        // let requests = await models.AttendanceRequest.findAll({where: {status:status,
-        // createdAt: {
-        //     $between: [from.toDate(), to.toDate()]
-        // }}, include: [models.Attendance]}).catch(e=>{console.log(e); return res.sendStatus(400)})
+        let requests = await models.AttendanceRequest.findAll({
+            where: {
+                createdAt: {
+                    [Op.between]: [from, to]
+                }
+            },
+            include: [{
+                model: models.Attendance,
+                include: [models.Shift]
+            }, {
+                model: models.Employee,
+                as: "requester",
+                include: [models.Department]
+            }]
+        }).catch(e => {
+            console.log(e);
+            return res.sendStatus(400)
+        })
 
-        let requests = await sequelize.query(
-            `SELECT * FROM attendanceRequests
-         INNER JOIN attendances ON attendanceRequests.attendance_id=attendances.attendance_id
-         WHERE attendanceRequests.status = "${status}" AND attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `, {
-                type: sequelize.QueryTypes.SELECT
-            }
-        )
+        // let requests = await sequelize.query(
+        //     `SELECT * FROM attendanceRequests
+        //  INNER JOIN attendances ON attendanceRequests.attendance_id=attendances.attendance_id
+        //  WHERE attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `, {
+        //         type: sequelize.QueryTypes.SELECT
+        //     }
+        // )
 
         return res.json(requests)
     })
 
-    router.get("/attendanceRequest", async (req, res) => {
+    router.get("/request", async (req, res) => {
 
         // let machineCode = req.user.machineCode
         machineCode = "AD-123";
@@ -104,34 +117,41 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests);
     })
 
-    router.put('/attendanceRequest', async (req, res) => {
+    router.put('/request', async (req, res) => {
         // TO DO: admin middleware
 
-        let employee = await models.Employee.findOne({
-            where: {
-                machineCode: req.body.data.requester_id
-            }
-        });
+
 
         // let approver_id = req.user.machineCode
         let approver_id = "AD-123";
 
+        let request = await models.AttendanceRequest.findOne({
+            where: {
+                attendanceRequest_id: req.body.data.attendanceRequest_id
+            }
+        })
+
+        let employee = await models.Employee.findOne({
+            where: {
+                machineCode: request.requester_id
+            }
+        });
 
         if (req.body.data.status === "accepted") {
             await models.Attendance.update({
-                actualInTime: req.body.data.inTime,
-                actualOutTime: req.body.data.outTime,
-                actualInDate: req.body.data.inDate,
-                actualOutDate: req.body.data.outDate,
+                actualInTime: request.inTime,
+                actualOutTime: request.outTime,
+                actualInDate: request.inDate,
+                actualOutDate: request.outDate,
             }, {
                 where: {
-                    attendance_id: req.body.data.attendance_id
+                    attendance_id: request.attendance_id
                 }
             })
 
             // TO DO: Send mail
             let accept_html = "<p>Hello ${name}</p><p>Your attendance request with id ${id} has been accepted!</p>";
-            let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", req.body.data.attendance_id);
+            let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.attendance_id);
             const mailOptions = {
                 from: 'Circle Bot <mailer.circle@gmail.com>',
                 to: employee.email,
@@ -151,7 +171,7 @@ module.exports = (sequelize, transporter) => {
         if (req.body.data.status === "declined") {
             // TO DO: Send mail
             let decline_html = "<p>Hello ${name}</p><p>Your attendance request with id ${id} has been declined!</p>";
-            let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", req.body.data.attendance_id);
+            let formatted_html = decline_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.attendance_id);
             const mailOptions = {
                 from: 'Circle Bot <mailer.circle@gmail.com>',
                 to: employee.email,

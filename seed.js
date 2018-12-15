@@ -544,7 +544,7 @@ module.exports = async db => {
 			birthDate: '1997-10-06',
 			cnic: '31201-7589170-9',
 			mobileNo: '0305-6443339',
-			email: 'john@doe.com',
+			email: 'mdaniyal.kh@gmail.com',
 			address: 'Address-1',
 			permanentAddress: 'Permanent Address',
 			appointmentDate: '2010-10-10',

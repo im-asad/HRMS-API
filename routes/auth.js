@@ -7,8 +7,9 @@ module.exports = (sequelize) => {
     const auth_secret = process.env.AUTH_SECRET;
     const User = require("../models/user")(sequelize);
     const Employee = require("../models/setup/employee/employee")(sequelize);
-    router.post("/verify-token", middlewares.verifyToken, function (req, res) {
-        res.json({message: "API is up and running.", status: 200, request_user: req.user})
+    router.post("/verify-token", middlewares.verifyToken, async (req, res) => {
+        const employee = await Employee.findOne({where: {machineCode: req.user.machineCode}, include: [{ all: true }]})
+        res.json({message: "API is up and running.", status: 200, request_user: employee})
     });
 
     router.post("/api/login", async (req, res) => {

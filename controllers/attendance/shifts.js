@@ -85,6 +85,10 @@ module.exports = (sequelize) => {
 				include: [models.Shift]
 			});
 
+			if (attendance.status === "L") {
+				return;
+			}
+
 			let actualinDateTime = moment(attendance.actualInDate + " " + attendance.actualInTime);
 			let actualOutDateTime = moment(attendance.actualOutDate + " " + attendance.actualOutTime);
 			let inDateTime = moment(attendance.inDate + "  " + attendance.shift.shiftStartingTime);
@@ -92,13 +96,15 @@ module.exports = (sequelize) => {
 
 			if (actualinDateTime.isBefore(inDateTime) || (actualInDate.diff(inDateTime, "minutes") <= attendance.shift.graceTime)) {
 				// arrived on time
-				if (actualOutDateTime.isAfter(outDateTime) || (actualOutDateTime.diff(outDateTime) <= attendance.shift.graceTime)) {
+				if (actualOutDateTime.isAfter(outDateTime) || (outDateTime.diff(actualOutDateTime, "minutes") <= attendance.shift.graceTime)) {
 					//  left on time
 					await attendance.update({
 						status: "P"
 					});
 					return;
 				}
+
+				// check how late the person was
 
 			}
 			await attendance.update({

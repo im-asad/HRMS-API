@@ -163,7 +163,8 @@ module.exports = (sequelize, transporter) => {
                     as: "approver"
                 },
                 {
-                    model: models.Attendance
+                    model: models.Attendance,
+                    include: [models.Shift]
                 }
             ]
         });
@@ -194,6 +195,15 @@ module.exports = (sequelize, transporter) => {
             id: 1
         });
         return res.sendStatus(200);
+    })
+
+    router.get("/policy", async (req, res) => {
+        let policy = await models.LeavePolicy.findOne({
+            where: {
+                id: 1
+            }
+        });
+        return res.json(policy);
     })
 
 

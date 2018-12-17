@@ -27,9 +27,6 @@
 		},
 		"leaveApproval": {
 			"canAccess": true
-		},
-		"leavePlanRequest": {
-			"canAccess": true
 		}
 	},
 	"setup": {
@@ -96,16 +93,10 @@
 	},
 	"security": {
 		"canAccess": true,
-		"manageESSUsers": {
-			"canAccess": true
-		},
 		"manageRights": {
 			"canAccess": true
 		},
 		"manageRoles": {
-			"canAccess": true
-		},
-		"manageUsers": {
 			"canAccess": true
 		},
 		"userProfile": {

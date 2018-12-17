@@ -27,9 +27,6 @@
 		},
 		"leaveApproval": {
 			"canAccess": true
-		},
-		"leavePlanRequest": {
-			"canAccess": true
 		}
 	},
 	"setup": {

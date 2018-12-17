@@ -1,8 +1,5 @@
 const faker = require('faker')
 const bcrypt = require('bcrypt-nodejs')
-const adminPrevileges = require('./permissions/admin')
-const supervisorPrevileges = require('./permissions/supervisor')
-const developerPrevileges = require('./permissions/developer')
 module.exports = async db => {
 	const {
 		Branch,
@@ -41,7 +38,6 @@ module.exports = async db => {
 		DefaultShift,
 		ScheduledShift,
 		Role,
-		Permission,
 	} = db
 
 	await Role.bulkCreate([
@@ -668,24 +664,6 @@ module.exports = async db => {
 		},
 	])
 
-	// Find all roles and add permissions to respective role.
-	const roles = await Role.findAll({
-		raw: true,
-	})
-
-	const permissionsObject = {
-		admin: JSON.stringify(adminPrevileges),
-		supervisor: JSON.stringify(supervisorPrevileges),
-		developer: JSON.stringify(developerPrevileges),
-	}
-	const permissions = []
-	roles.forEach(role => {
-		permissions.push({
-			permissions: permissionsObject[role.roleName],
-			roleId: role.role_id,
-		})
-	})
-
 	await LeaveRequest.bulkCreate([
 		{
 			status: 'pending',
@@ -709,6 +687,4 @@ module.exports = async db => {
 			latePenalty: 0.2,
 		},
 	])
-
-	await Permission.bulkCreate(permissions)
 }

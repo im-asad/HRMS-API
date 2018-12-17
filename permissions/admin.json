@@ -20,41 +20,14 @@
   },
   "leave": {
     "canAccess": true,
-    "leaveAdmin": {
-      "canAccess": true,
-      "leaveYearSetup": {
-        "canAccess": true
-      },
-      "leavePolicy": {
-        "canAccess": true
-      },
-      "leavePolicyEmployeeWise": {
-        "canAccess": true
-      },
-      "employeeLeaveOpening": {
-        "canAccess": true
-      },
-      "yearEnd": {
-        "canAccess": true
-      }
+    "leavePolicy": {
+      "canAccess": true
     },
     "leaveRequest": {
       "canAccess": true
     },
-    "leaveRequestList": {
-      "canAccess": true
-    },
     "leaveApproval": {
       "canAccess": true
-    },
-    "leaveCalendar": {
-      "canAccess": true
-    },
-    "leaveSetup": {
-      "canAccess": true,
-      "leaveType": {
-        "canAccess": true
-      }
     },
     "leavePlanRequest": {
       "canAccess": true
@@ -109,46 +82,16 @@
   },
   "attendance": {
     "canAccess": true,
-    "attendanceAdmin": {
-      "canAccess": true,
-      "attendanceRule": {
-        "canAccess": true
-      },
-      "attendanceFlagExemption": {
-        "canAccess": true
-      },
-      "monthEndProcess": {
-        "canAccess": true
-      },
-      "exceptionAttendanceEditing": {
-        "canAccess": true
-      }
-    },
-    "shiftScheduling": {
-      "canAccess": true
-    },
     "viewAttendance": {
       "canAccess": true
     },
     "employeeShift": {
       "canAccess": true
     },
-    "monthCalendar": {
-      "canAccess": true
-    },
-    "officialVisitEntry": {
-      "canAccess": true
-    },
-    "uploadAttendance": {
-      "canAccess": true
-    },
     "attendanceRequestApproval": {
       "canAccess": true
     },
     "attendanceRequest": {
-      "canAccess": true
-    },
-    "attendanceRequestList": {
       "canAccess": true
     }
   },

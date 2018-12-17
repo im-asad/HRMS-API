@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const moment = require('moment')
-
+const randomstring = require('randomstring')
+const bcrypt = require("bcrypt-nodejs");
 
 module.exports = (sequelize, transporter) => {
 	const attendanceController = require('../../controllers/attendance/shifts.js')(sequelize)
@@ -19,8 +20,8 @@ module.exports = (sequelize, transporter) => {
 
 	router.post('/create', async (req, res) => {
 
+		console.log("IN THe")
 		// TO DO: check permission
-
 		try {
 			let data = req.body.data
 			Object.keys(data).forEach(element => {
@@ -28,16 +29,27 @@ module.exports = (sequelize, transporter) => {
 					data[element] = null
 				}
 			})
+
+			const password = randomstring.generate({
+				length: 10,
+				charset: 'alphabetic'
+			});
+
+			const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+			const hash = bcrypt.hashSync(password, salt);
+
+			data.password = hash;
+
 			await Employee.create(data)
 
 			const mailOptions = {
-				from: 'nurturebot.mailer@gmail.com',
-				to: 'mdaniyal.kh@gmail.com',
+				from: 'Circle Bot <mailer.circle@gmail.com>',
+				to: data.email,
 				subject: 'Your Circle account is now active',
 				text: 'Your circle account username: ' +
 					data.username +
 					' is now active. Your password is: ' +
-					data.password,
+					password,
 			}
 
 			transporter.sendMail(mailOptions, function (error, info) {
@@ -45,10 +57,12 @@ module.exports = (sequelize, transporter) => {
 					console.log(error)
 					return res.sendStatus(500)
 				} else {
+					console.log("EMAIL SENT");
 					return res.sendStatus(200)
 				}
 			})
 		} catch (e) {
+			console.log(e)
 			return res.sendStatus(400)
 		}
 	})

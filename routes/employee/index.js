@@ -40,16 +40,18 @@ module.exports = (sequelize, transporter) => {
 
 			data.password = hash;
 
-			await Employee.create(data)
+			const createdEmployee = await Employee.create(data)
+
+			const { employeeName, username } = createdEmployee.dataValues;
+			let html = `<p style="font-family: 'monospace', font-size: 14px">Hello ${employeeName}, your account is all setup. You can use the following credentials to login.</p>` +
+				`<div style="font-family: 'Courier New'"><b>Username: </b> ${username}</>` +
+				`<div style="font-family: 'Courier New'"><b>Password: </b> ${password}</div>`;
 
 			const mailOptions = {
 				from: 'Circle Bot <mailer.circle@gmail.com>',
 				to: data.email,
 				subject: 'Your Circle account is now active',
-				text: 'Your circle account username: ' +
-					data.username +
-					' is now active. Your password is: ' +
-					password,
+				html
 			}
 
 			transporter.sendMail(mailOptions, function (error, info) {

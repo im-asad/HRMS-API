@@ -126,7 +126,7 @@ module.exports = async db => {
 			qualificationLevelTitle: 'Title-2'
 		},
 		{
-			qualificationLevel: 1,
+			qualificationLevel: 3,
 			qualificationLevelTitle: 'Title-3'
 		},
 	])

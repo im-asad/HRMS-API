@@ -53,5 +53,22 @@ module.exports = (sequelize) => {
         }
     })
 
+    router.post("/api/change-password", middlewares.verifyToken, async (req, res) => {
+        const { currentPassword, newPassword } = req.body
+        const { machineCode } = req.user
+
+		const user = await Employee.findOne({where: {machineCode}})
+
+		const match = bcrypt.compareSync(currentPassword, user.dataValues.password);
+		if (match) {
+			const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+			const hash = bcrypt.hashSync(newPassword, salt);
+			await Employee.update({password: hash}, {where: {machineCode}})
+			res.json({status: 200, message: "Password updated."})
+		} else {
+			res.json({status: 402, message: "Old password incorrect."});
+		}
+    })
+
     return router;
 };

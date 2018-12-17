@@ -7,7 +7,6 @@ module.exports = sequelize => {
 
 	
 	let handleRequest = async (req, res) => {
-		console.log(req.body)
 		const entity = req.params.entity
 		const operation = req.params.operation
 

@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
                 const token = jwt.sign({tokenUser}, auth_secret);
                 res.json({status: 200, token, request_user: tokenUser})
             } else {
-                res.json({status: 402, message: "Invalid credentials."});
+                res.json({status: 402, message: "Invalid password."});
             }
         }
     });

@@ -9,7 +9,8 @@ module.exports = sequelize => {
 			type: Sequelize.STRING,
 		},
 		leaveBalance: {
-			type: Sequelize.STRING,
+			type: Sequelize.FLOAT,
+			defaultValue: 2
 		},
 		employeeName: {
 			type: Sequelize.STRING,

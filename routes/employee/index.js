@@ -301,6 +301,10 @@ module.exports = (sequelize, transporter) => {
 		attendanceController.addCustomShift(req.body.data.shift_id, req.body.data.machineCode, req.body.date)
 	})
 
+	router.get("/test", async (req, res) => {
+		attendanceController.processWeeklyAttendance();
+	})
+
 	// TO DO: handle attendance updates
 
 	return router

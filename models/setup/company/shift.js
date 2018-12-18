@@ -24,7 +24,7 @@ module.exports = sequelize => {
 		},
 
 		shiftGraceTime: {
-			type: Sequelize.STRING,
+			type: Sequelize.INTEGER,
 		},
 	})
 

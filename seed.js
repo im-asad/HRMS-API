@@ -307,28 +307,28 @@ module.exports = async db => {
 			shiftCode: 'shift-001',
 			shiftStartingTime: '09:00',
 			shiftEndingTime: '17:00',
-			shiftGraceTime: 'WTH is shift grace time?',
+			shiftGraceTime: 15,
 		},
 		{
 			shiftTitle: 'Shift-2',
 			shiftCode: 'shift-002',
 			shiftStartingTime: '10:00',
 			shiftEndingTime: '18:00',
-			shiftGraceTime: 'WTH is shift grace time?',
+			shiftGraceTime: 15,
 		},
 		{
 			shiftTitle: 'Shift-3',
 			shiftCode: 'shift-003',
 			shiftStartingTime: '12:00',
 			shiftEndingTime: '20:00',
-			shiftGraceTime: 'WTH is shift grace time?',
+			shiftGraceTime: 15,
 		},
 		{
 			shiftTitle: 'Shift-4',
 			shiftCode: 'shift-004',
 			shiftStartingTime: '15:00',
 			shiftEndingTime: '00:00',
-			shiftGraceTime: 'WTH is shift grace time?',
+			shiftGraceTime: 15,
 		},
 	])
 
@@ -587,12 +587,11 @@ module.exports = async db => {
 		},
 	])
 
-	await Attendance.bulkCreate([
-		{
-			actualInDate: '2018-10-10',
-			actualOutDate: '2018-10-10',
-			inDate: '2018-10-10',
-			outDate: '2018-10-10',
+	await Attendance.bulkCreate([{
+			actualInDate: '2018-12-10',
+			actualOutDate: '2018-12-10',
+			inDate: '2018-12-10',
+			outDate: '2018-12-10',
 			actualInTime: '09:00',
 			actualOutTime: '17:00',
 			status: 'P',
@@ -601,10 +600,10 @@ module.exports = async db => {
 			shift_id: 1,
 		},
 		{
-			actualInDate: '2018-10-11',
-			actualOutDate: '2018-10-11',
-			inDate: '2018-10-11',
-			outDate: '2018-10-11',
+			actualInDate: '2018-12-11',
+			actualOutDate: '2018-12-11',
+			inDate: '2018-12-11',
+			outDate: '2018-12-11',
 			actualInTime: '08:00',
 			actualOutTime: '15:00',
 			status: 'P',
@@ -613,10 +612,10 @@ module.exports = async db => {
 			shift_id: 2,
 		},
 		{
-			actualInDate: '2018-10-12',
-			actualOutDate: '2018-10-12',
-			inDate: '2018-10-12',
-			outDate: '2018-10-12',
+			actualInDate: '2018-12-12',
+			actualOutDate: '2018-12-12',
+			inDate: '2018-12-12',
+			outDate: '2018-12-12',
 			actualInTime: '07:00',
 			actualOutTime: '14:00',
 			status: 'A',
@@ -625,8 +624,8 @@ module.exports = async db => {
 			shift_id: 1,
 		},
 		{
-			actualInDate: '2018-10-12',
-			actualOutDate: '2018-10-12',
+			actualInDate: '2018-12-12',
+			actualOutDate: '2018-12-12',
 			inDate: '2018-10-12',
 			outDate: '2018-10-12',
 			actualInTime: '07:00',
@@ -637,8 +636,8 @@ module.exports = async db => {
 			shift_id: 1,
 		},
 		{
-			actualInDate: '2018-10-12',
-			actualOutDate: '2018-10-12',
+			actualInDate: '2018-12-12',
+			actualOutDate: '2018-12-12',
 			inDate: '2018-10-12',
 			outDate: '2018-10-12',
 			actualInTime: '07:00',

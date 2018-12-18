@@ -281,10 +281,10 @@ module.exports = (sequelize, transporter) => {
 	router.post('/defaultshifts', async (req, res) => {
 		// TO DO: check admin
 		models.DefaultShift.create(req.body.data)
-		/* attendanceController.generateMonthlyShiftForEmployee(
+		attendanceController.generateMonthlyShiftForEmployee(
 			req.body.data.shift_id,
 			req.body.data.machineCode
-		) */
+		) 
 
 		// TO DO: send mail
 		res.sendStatus(200)
@@ -298,7 +298,6 @@ module.exports = (sequelize, transporter) => {
 		attendanceController.processWeeklyAttendance();
 	})
 
-	// TO DO: handle attendance updates
 
 	return router
 }

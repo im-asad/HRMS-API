@@ -76,6 +76,7 @@ sequelize
 	.then(() => {
 		const models = require('./models/')(sequelize)
 		seedDB(models)
+		require("./controllers/scheduler/index")(sequelize);
 	})
 // middleware for protected routes
 app.listen(2200, () => {

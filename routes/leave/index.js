@@ -1,13 +1,14 @@
-const router = require('express').Router()
-const moment = require('moment')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
+const router = require('express').Router();
+const moment = require('moment');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 
 
 module.exports = (sequelize, transporter) => {
-    const models = require('../../models')(sequelize)
+    const models = require('../../models')(sequelize);
+    const middleware = require('../../middlewares/auth');
 
     function upsert_policy(values, condition) {
         return models.LeavePolicy
@@ -25,14 +26,14 @@ module.exports = (sequelize, transporter) => {
     }
 
 
-    router.post('/request', async (req, res) => {
+    router.post('/request', middleware.verifyToken, async (req, res) => {
         console.log("=== LEAVE REQUEST ROUTE ===");
         console.log(models.LeaveRequest);
         // create attendance request
         let leave = req.body.data
-        let machineCode = "AD-124" // TO DO: get machine code from request header
+        let machineCode = req.user.machineCode;
         leave.requester_id = machineCode;
-        // to do: add requester id
+        
         let employee = await models.Employee.findOne({
             where: {
                 machineCode: machineCode,
@@ -55,7 +56,7 @@ module.exports = (sequelize, transporter) => {
             })
     })
 
-    router.put('/request', async (req, res) => {
+    router.put('/request', middleware.verifyToken, async (req, res) => {
         // TO DO: admin middleware
 
         // params: status leaveRequest_id,
@@ -66,7 +67,7 @@ module.exports = (sequelize, transporter) => {
             },
         })
 
-        let approver_id = "AD-123"; // TO DO: get approver id from header
+        let approver_id = req.user.machineCode; // TO DO: get approver id from header
 
         if (!request) {
             return res.sendStatus(400)
@@ -85,7 +86,6 @@ module.exports = (sequelize, transporter) => {
                 status: req.body.data.status,
                 approver_id: approver_id
             })
-            // TO DO: send mail to employee
 
 
             await employee.update({
@@ -111,7 +111,7 @@ module.exports = (sequelize, transporter) => {
 
             return res.sendStatus(200)
         } else if (req.body.data.status === 'accepted') {
-            // TO DO: set approver id
+            
             await request.update({
                 status: req.body.data.status,
                 approver_id: approver_id
@@ -149,10 +149,10 @@ module.exports = (sequelize, transporter) => {
         return res.sendStatus(200)
     })
 
-    router.get("/request", async (req, res) => {
+    router.get("/request", middleware.verifyToken,  async (req, res) => {
 
         // TO DO: get requester machine code from header
-        let machineCode = "AD-123";
+        let machineCode = req.user.machineCode;
 
         let requests = await models.LeaveRequest.findAll({
             where: {
@@ -171,7 +171,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests);
     })
 
-    router.get("/request/all", async (req, res) => {
+    router.get("/request/all", middleware.verifyToken,  async (req, res) => {
 
         // TO DO: admin middleware
 
@@ -190,7 +190,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests);
     });
 
-    router.post("/policy", async (req, res) => {
+    router.post("/policy", middleware.verifyToken, async (req, res) => {
         upsert_policy(req.body.data, {
             id: 1
         });

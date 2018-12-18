@@ -93,37 +93,49 @@ module.exports = (sequelize) => {
 		});
 
 	}
-	return {
-		generateMonthlyDefaultShiftsForEmployee: async machineCode => {
-			let defaultShifts = await models.DefaultShift.findAll({
-				where: {
-					machineCode: machineCode,
-				},
-			})
 
-			defaultShifts.forEach(defaultShift => {
-				var startDate = moment(new Date()).subtract(1, 'days')
 
-				// Clone the value before .endOf()
-				var endDate = moment(startDate).endOf('month')
+	async function generateMonthlyDefaultShiftsForEmployee(machineCode) {
+		let defaultShifts = await models.DefaultShift.findAll({
+			where: {
+				machineCode: machineCode,
+			},
+		})
 
-				while (startDate.add(1, 'days').diff(endDate) < 0) {
-					if (!startDate.isBusinessDay()) {
-						continue
-					}
+		defaultShifts.forEach(defaultShift => {
+			var startDate = moment(new Date()).subtract(1, 'days')
 
-					let nextDay = moment(startDate)
-					nextDay.add(1, 'day')
-					models.Attendance.create({
-						machineCode: machineCode,
-						shift_id: defaultShift_id,
-						inDate: startDate.toDate(),
-						outDate: Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending) ?
-							nextDay.toDate() : startDate.toDate(),
-					})
+			// Clone the value before .endOf()
+			var endDate = moment(startDate).endOf('month')
+
+			while (startDate.add(1, 'days').diff(endDate) < 0) {
+				if (!startDate.isBusinessDay()) {
+					continue
 				}
+
+				let nextDay = moment(startDate)
+				nextDay.add(1, 'day')
+				models.Attendance.create({
+					machineCode: machineCode,
+					shift_id: defaultShift_id,
+					inDate: startDate.toDate(),
+					outDate: Date(defaultShift.shiftStartingTime) > Date(defaultShift.ending) ?
+						nextDay.toDate() : startDate.toDate(),
+				})
+			}
+		})
+	}
+
+	return {
+
+		generateMonthlyShifts: async ()=>{
+			let employees = models.findAll({});
+
+			employees.forEach(employee=>{
+				generateMonthlyDefaultShiftsForEmployee(employee.machineCode);
 			})
-		},
+		}, 
+		
 
 		generateMonthlyShiftForEmployee: async (shift_id, machineCode) => {
 			var startDate = moment(new Date()).subtract(1, 'days')

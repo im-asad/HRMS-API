@@ -5,8 +5,9 @@ const Op = Sequelize.Op
 
 module.exports = (sequelize, transporter) => {
     const models = require('../../models')(sequelize)
+    const middleware = require('../../middlewares/auth');
 
-    router.get('/employee/:machineCode', async (req, res) => {
+    router.get('/employee/:machineCode',  middleware.verifyToken, async (req, res) => {
         // return this employee's attendance
 
 
@@ -34,7 +35,7 @@ module.exports = (sequelize, transporter) => {
         return res.json(attendance)
     })
 
-    router.post('/request', async (req, res) => {
+    router.post('/request',  middleware.verifyToken, async (req, res) => {
         // create attendance request
 
 
@@ -52,7 +53,7 @@ module.exports = (sequelize, transporter) => {
             })
     })
 
-    router.get('/request/all', async (req, res) => {
+    router.get('/request/all',  middleware.verifyToken, async (req, res) => {
         // TO DO: admin middleware
 
         // if (!(req.user.userType === "admin")) {
@@ -84,21 +85,14 @@ module.exports = (sequelize, transporter) => {
             return res.sendStatus(400)
         })
 
-        // let requests = await sequelize.query(
-        //     `SELECT * FROM attendanceRequests
-        //  INNER JOIN attendances ON attendanceRequests.attendance_id=attendances.attendance_id
-        //  WHERE attendanceRequests.createdAt BETWEEN "${from}" AND "${to}" `, {
-        //         type: sequelize.QueryTypes.SELECT
-        //     }
-        // )
+
 
         return res.json(requests)
     })
 
-    router.get("/request", async (req, res) => {
+    router.get("/request", middleware.verifyToken, async (req, res) => {
 
-        // let machineCode = req.user.machineCode
-        machineCode = "AD-123";
+        let machineCode = req.user.machineCode
 
         let requests = await models.AttendanceRequest.findAll({
             where: {
@@ -117,11 +111,10 @@ module.exports = (sequelize, transporter) => {
         return res.json(requests);
     })
 
-    router.put('/request', async (req, res) => {
+    router.put('/request', middleware.verifyToken, async (req, res) => {
         // TO DO: admin middleware
 
-        // let approver_id = req.user.machineCode
-        let approver_id = "AD-123";
+        let approver_id = req.user.machineCode
 
         let request = await models.AttendanceRequest.findOne({
             where: {
@@ -147,7 +140,7 @@ module.exports = (sequelize, transporter) => {
                 }
             })
 
-            // TO DO: Send mail
+            
             let accept_html = "<p>Hello ${name}</p><p>Your attendance request with id ${id} has been accepted!</p>";
             let formatted_html = accept_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.attendance_id);
             const mailOptions = {
@@ -167,7 +160,6 @@ module.exports = (sequelize, transporter) => {
         }
 
         if (req.body.data.status === "declined") {
-            // TO DO: Send mail
             let decline_html = "<p>Hello ${name}</p><p>Your attendance request with id ${id} has been declined!</p>";
             let formatted_html = decline_html.replace("${name}", employee.dataValues.employeeName).replace("${id}", request.attendance_id);
             const mailOptions = {

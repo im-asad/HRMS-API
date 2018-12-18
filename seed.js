@@ -1,8 +1,5 @@
 const faker = require('faker')
 const bcrypt = require('bcrypt-nodejs')
-const adminPrevileges = require('./permissions/admin')
-const supervisorPrevileges = require('./permissions/supervisor')
-const developerPrevileges = require('./permissions/developer')
 module.exports = async db => {
 	const {
 		Branch,
@@ -41,221 +38,240 @@ module.exports = async db => {
 		DefaultShift,
 		ScheduledShift,
 		Role,
-		Permission,
 	} = db
 
-	await Role.bulkCreate([{
-		roleName: 'supervisor'
-	}, {
-		roleName: 'admin'
-	}, {
-		roleName: 'developer'
-	}])
+	await Role.bulkCreate([
+		{
+			roleName: 'Supervisor',
+		},
+		{
+			roleName: 'Admin',
+		},
+		{
+			roleName: 'Developer',
+		},
+	])
 
-	await WeeklyOffDays.bulkCreate([{
-		weeklyOffDays: 1,
-		sunday: true,
-		monday: false,
-		tuesday: false,
-		wednesday: false,
-		thursday: false,
-		friday: false,
-		saturday: true,
-	}, ])
+	await WeeklyOffDays.bulkCreate([
+		{
+			weeklyOffDays: 1,
+			sunday: true,
+			monday: false,
+			tuesday: false,
+			wednesday: false,
+			thursday: false,
+			friday: false,
+			saturday: true,
+		},
+	])
 
-	await Branch.bulkCreate([{
+	await Branch.bulkCreate([
+		{
 			branch: 'Branch-1',
-			branch_prefix: 'B1'
+			branch_prefix: 'B1',
 		},
 		{
 			branch: 'Branch-2',
-			branch_prefix: 'B2'
+			branch_prefix: 'B2',
 		},
 		{
 			branch: 'Branch-3',
-			branch_prefix: 'B3'
+			branch_prefix: 'B3',
 		},
 		{
 			branch: 'Branch-4',
-			branch_prefix: 'B4'
+			branch_prefix: 'B4',
 		},
 	])
 
-	await City.bulkCreate([{
-			city: 'Islamabad'
+	await City.bulkCreate([
+		{
+			city: 'Islamabad',
 		},
 		{
-			city: 'Karachi'
+			city: 'Karachi',
 		},
 		{
-			city: 'Quetta'
+			city: 'Quetta',
 		},
 		{
-			city: 'Lahore'
+			city: 'Lahore',
 		},
 	])
 
-	await LeavingReason.bulkCreate([{
-			leavingReason: 'Reason-1'
+	await LeavingReason.bulkCreate([
+		{
+			leavingReason: 'Reason-1',
 		},
 		{
-			leavingReason: 'Reason-2'
+			leavingReason: 'Reason-2',
 		},
 		{
-			leavingReason: 'Reason-3'
+			leavingReason: 'Reason-3',
 		},
 	])
 
-	await Qualification.bulkCreate([{
-			qualification: 'Qualification-1'
+	await Qualification.bulkCreate([
+		{
+			qualification: 'Qualification-1',
 		},
 		{
-			qualification: 'Qualification-2'
+			qualification: 'Qualification-2',
 		},
 		{
-			qualification: 'Qualification-3'
+			qualification: 'Qualification-3',
 		},
 	])
 
-	await QualificationLevel.bulkCreate([{
+	await QualificationLevel.bulkCreate([
+		{
 			qualificationLevel: 1,
-			qualificationLevelTitle: 'Title-1'
+			qualificationLevelTitle: 'Title-1',
 		},
 		{
 			qualificationLevel: 2,
-			qualificationLevelTitle: 'Title-2'
+			qualificationLevelTitle: 'Title-2',
 		},
 		{
-			qualificationLevel: 1,
-			qualificationLevelTitle: 'Title-3'
+			qualificationLevel: 3,
+			qualificationLevelTitle: 'Title-3',
 		},
 	])
 
-	await WorkflowGroup.bulkCreate([{
-			workflowGroup: 'Workflow-Group-1'
+	await WorkflowGroup.bulkCreate([
+		{
+			workflowGroup: 'Workflow-Group-1',
 		},
 		{
-			workflowGroup: 'Workflow-Group-2'
+			workflowGroup: 'Workflow-Group-2',
 		},
 		{
-			workflowGroup: 'Workflow-Group-3'
+			workflowGroup: 'Workflow-Group-3',
 		},
 		{
-			workflowGroup: 'Workflow-Group-4'
+			workflowGroup: 'Workflow-Group-4',
 		},
 	])
 
-	await SubLeavingReason.bulkCreate([{
+	await SubLeavingReason.bulkCreate([
+		{
 			subLeavingReason: 'Sub-Leaving Reason-1',
-			leavingReason_id: 1
+			leavingReason_id: 1,
 		},
 		{
 			subLeavingReason: 'Sub-Leaving Reason-1',
-			leavingReason_id: 2
+			leavingReason_id: 2,
 		},
 		{
 			subLeavingReason: 'Sub-Leaving Reason-1',
-			leavingReason_id: 3
+			leavingReason_id: 3,
 		},
 		{
 			subLeavingReason: 'Sub-Leaving Reason-1',
-			leavingReason_id: 3
+			leavingReason_id: 3,
 		},
 	])
 
-	await SubDepartment.bulkCreate([{
+	await SubDepartment.bulkCreate([
+		{
 			subDepartment: 'Sub-Department-1',
-			subDepartment_prefix: 'SD-1'
+			subDepartment_prefix: 'SD-1',
 		},
 		{
 			subDepartment: 'Sub-Department-2',
-			subDepartment_prefix: 'SD-2'
+			subDepartment_prefix: 'SD-2',
 		},
 		{
 			subDepartment: 'Sub-Department-3',
-			subDepartment_prefix: 'SD-3'
+			subDepartment_prefix: 'SD-3',
 		},
 	])
 
-	await EmployeeCategory.bulkCreate([{
-			employeeCategory: 'Category-1'
+	await EmployeeCategory.bulkCreate([
+		{
+			employeeCategory: 'Category-1',
 		},
 		{
-			employeeCategory: 'Category-2'
+			employeeCategory: 'Category-2',
 		},
 		{
-			employeeCategory: 'Category-3'
+			employeeCategory: 'Category-3',
 		},
 		{
-			employeeCategory: 'Category-4'
+			employeeCategory: 'Category-4',
 		},
 	])
 
-	await Grade.bulkCreate([{
+	await Grade.bulkCreate([
+		{
 			grade: 'Grade-1',
-			grade_prefix: 'G1'
+			grade_prefix: 'G1',
 		},
 		{
 			grade: 'Grade-2',
-			grade_prefix: 'G2'
+			grade_prefix: 'G2',
 		},
 		{
 			grade: 'Grade-3',
-			grade_prefix: 'G3'
+			grade_prefix: 'G3',
 		},
 		{
 			grade: 'Grade-4',
-			grade_prefix: 'G4'
+			grade_prefix: 'G4',
 		},
 	])
 
-	await Country.bulkCreate([{
-			country: 'Japan'
+	await Country.bulkCreate([
+		{
+			country: 'Japan',
 		},
 		{
-			country: 'USA'
+			country: 'USA',
 		},
 		{
-			country: 'India'
+			country: 'India',
 		},
 		{
-			country: 'Pakistan'
+			country: 'Pakistan',
 		},
 	])
 
-	await Designation.bulkCreate([{
+	await Designation.bulkCreate([
+		{
 			designation: 'Designation-1',
-			designation_prefix: 'Desig-1'
+			designation_prefix: 'Desig-1',
 		},
 		{
 			designation: 'Designation-2',
-			designation_prefix: 'Desig-2'
+			designation_prefix: 'Desig-2',
 		},
 		{
 			designation: 'Designation-3',
-			designation_prefix: 'Desig-3'
+			designation_prefix: 'Desig-3',
 		},
 		{
 			designation: 'Designation-4',
-			designation_prefix: 'Desig-4'
+			designation_prefix: 'Desig-4',
 		},
 	])
 
-	await Division.bulkCreate([{
-			division: 'Division-1'
+	await Division.bulkCreate([
+		{
+			division: 'Division-1',
 		},
 		{
-			division: 'Division-2'
+			division: 'Division-2',
 		},
 		{
-			division: 'Division-3'
+			division: 'Division-3',
 		},
 		{
-			division: 'Division-4'
+			division: 'Division-4',
 		},
 	])
 
-	await Department.bulkCreate([{
+	await Department.bulkCreate([
+		{
 			department: 'Department-1',
 			costCenterCode: 'cc-1234',
 			glCode: 'gl-1234',
@@ -285,7 +301,8 @@ module.exports = async db => {
 		},
 	])
 
-	await Shift.bulkCreate([{
+	await Shift.bulkCreate([
+		{
 			shiftTitle: 'Shift-1',
 			shiftCode: 'shift-001',
 			shiftStartingTime: '09:00',
@@ -315,7 +332,8 @@ module.exports = async db => {
 		},
 	])
 
-	await AttendanceFlag.bulkCreate([{
+	await AttendanceFlag.bulkCreate([
+		{
 			attendanceFlag: 'Flag-1',
 			attendanceFlagCategory: 'Attendance Flag Category-1',
 			effectBy: 'Effect By',
@@ -338,68 +356,72 @@ module.exports = async db => {
 		},
 	])
 
-	await Holiday.bulkCreate([{
+	await Holiday.bulkCreate([
+		{
 			holidayDate: '2018-12-25',
 			holiday: "Quaid's Day",
-			holidayRemarks: 'Remarks'
+			holidayRemarks: 'Remarks',
 		},
 		{
 			holidayDate: '2018-10-12',
 			holiday: 'Halloween',
-			holidayRemarks: 'Remarks'
+			holidayRemarks: 'Remarks',
 		},
 		{
 			holidayDate: '2018-02-04',
 			holiday: 'Kashmir Day',
-			holidayRemarks: 'Remarks'
+			holidayRemarks: 'Remarks',
 		},
 	])
 
-	await UserGroup.bulkCreate([{
-			userGroup: 'User Group-1'
+	await UserGroup.bulkCreate([
+		{
+			userGroup: 'User Group-1',
 		},
 		{
-			userGroup: 'User Group-2'
+			userGroup: 'User Group-2',
 		},
 		{
-			userGroup: 'User Group-3'
+			userGroup: 'User Group-3',
 		},
 	])
 
-	await WorkflowUserGroup.bulkCreate([{
+	await WorkflowUserGroup.bulkCreate([
+		{
 			userGroup_id: 1,
-			workflowGroup_id: 2
+			workflowGroup_id: 2,
 		},
 		{
 			userGroup_id: 3,
-			workflowGroup_id: 3
+			workflowGroup_id: 3,
 		},
 		{
 			userGroup_id: 2,
-			workflowGroup_id: 2
+			workflowGroup_id: 2,
 		},
 	])
 
-	await ShiftFlag.bulkCreate([{
+	await ShiftFlag.bulkCreate([
+		{
 			from: '07:00',
 			to: '14:00',
 			shiftType: 'Shift Type-1',
 			shift_id: 1,
-			attendanceFlag_id: 2
+			attendanceFlag_id: 2,
 		},
 		{
 			from: '09:00',
 			to: '16:00',
 			shiftType: 'Shift Type-2',
 			shift_id: 3,
-			attendanceFlag_id: 1
+			attendanceFlag_id: 1,
 		},
 		{
 			from: '11:00',
 			to: '18:00',
 			shiftType: 'Shift Type-3',
 			shift_id: 2,
-			attendanceFlag_id: 3
+			attendanceFlag_id: 3,
 		},
 	])
 
@@ -495,12 +517,11 @@ module.exports = async db => {
 		{ fromLeaveYear: '2017', toLeaveYear: '2018' },
 	]) */
 
-
-
 	const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS))
 	const hash = bcrypt.hashSync('1234', salt)
 
-	await Employee.bulkCreate([{
+	await Employee.bulkCreate([
+		{
 			username: 'user02',
 			password: hash,
 			leaveBalance: 5,
@@ -573,7 +594,7 @@ module.exports = async db => {
 			outDate: '2018-12-10',
 			actualInTime: '09:00',
 			actualOutTime: '17:00',
-			status: 'Status A',
+			status: 'P',
 			leave: 1,
 			machineCode: 'AD-123',
 			shift_id: 1,
@@ -585,7 +606,7 @@ module.exports = async db => {
 			outDate: '2018-12-11',
 			actualInTime: '08:00',
 			actualOutTime: '15:00',
-			status: 'Status B',
+			status: 'P',
 			leave: 1,
 			machineCode: 'AD-124',
 			shift_id: 2,
@@ -597,81 +618,96 @@ module.exports = async db => {
 			outDate: '2018-12-12',
 			actualInTime: '07:00',
 			actualOutTime: '14:00',
-			status: 'Status B',
+			status: 'A',
+			leave: 0,
+			machineCode: 'AD-123',
+			shift_id: 1,
+		},
+		{
+			actualInDate: '2018-12-12',
+			actualOutDate: '2018-12-12',
+			inDate: '2018-10-12',
+			outDate: '2018-10-12',
+			actualInTime: '07:00',
+			actualOutTime: '14:00',
+			status: 'Late',
+			leave: 0,
+			machineCode: 'AD-123',
+			shift_id: 1,
+		},
+		{
+			actualInDate: '2018-12-12',
+			actualOutDate: '2018-12-12',
+			inDate: '2018-10-12',
+			outDate: '2018-10-12',
+			actualInTime: '07:00',
+			actualOutTime: '14:00',
+			status: 'Late',
 			leave: 0,
 			machineCode: 'AD-123',
 			shift_id: 1,
 		},
 	])
 
-	await AttendanceRequest.bulkCreate([{
-		inDate: '2018-10-18',
-		outDate: '2018-12-22',
-		inTime: '13:00',
-		outTime: '21:00',
-		description: 'Description AR',
-		status: 'pending',
-		attendance_id: 1,
-		requester_id: 'AD-123',
-		approver_id: 'AD-124',
-	}, ])
-
-	await DefaultShift.bulkCreate([{
-			shift_id: 1,
-			machineCode: 'AD-123'
-		},
+	await AttendanceRequest.bulkCreate([
 		{
-			shift_id: 2,
-			machineCode: 'AD-124'
+			inDate: '2018-10-18',
+			outDate: '2018-12-22',
+			inTime: '13:00',
+			outTime: '21:00',
+			description: 'Description AR',
+			status: 'pending',
+			attendance_id: 1,
+			requester_id: 'AD-123',
+			approver_id: 'AD-124',
 		},
 	])
 
-	await ScheduledShift.bulkCreate([{
+	await DefaultShift.bulkCreate([
+		{
+			shift_id: 1,
+			machineCode: 'AD-123',
+		},
+		{
+			shift_id: 2,
+			machineCode: 'AD-124',
+		},
+	])
+
+	await ScheduledShift.bulkCreate([
+		{
 			date: '2018-10-18',
 			shift_id: 1,
-			machineCode: 'AD-123'
+			machineCode: 'AD-123',
 		},
 		{
 			date: '2017-11-17',
 			shift_id: 2,
-			machineCode: 'AD-124'
+			machineCode: 'AD-124',
 		},
 	])
 
-	// Find all roles and add permissions to respective role.
-	const roles = await Role.findAll({
-		raw: true,
-	})
-
-	const permissionsObject = {
-		admin: JSON.stringify(adminPrevileges),
-		supervisor: JSON.stringify(supervisorPrevileges),
-		developer: JSON.stringify(developerPrevileges),
-	}
-	const permissions = []
-	roles.forEach(role => {
-		permissions.push({
-			permissions: permissionsObject[role.roleName],
-			roleId: role.role_id
-		})
-	})
-
-	await LeaveRequest.bulkCreate([{
-			status: "pending",
+	await LeaveRequest.bulkCreate([
+		{
+			status: 'pending',
 			attendance_id: 1,
-			requester_id: "AD-123",
-			description: "Request one"
+			requester_id: 'AD-123',
+			description: 'Request one',
 		},
 		{
-			status: "pending",
+			status: 'pending',
 			attendance_id: 3,
-			requester_id: "AD-123",
-			description: "Request two"
+			requester_id: 'AD-123',
+			description: 'Request two',
 		},
-	]);
+	])
 
-	await Permission.bulkCreate(permissions)
-
-
-	console.log(JSON.stringify(adminPrevileges))
+	await LeavePolicy.bulkCreate([
+		{
+			id: 1,
+			leaveDays: 10,
+			absentPenalty: 1,
+			latePenalty: 0.2,
+		},
+	])
 }

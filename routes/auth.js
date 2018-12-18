@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
                 const token = jwt.sign({tokenUser}, auth_secret);
                 res.json({status: 200, token, request_user: tokenUser})
             } else {
-                res.json({status: 402, message: "Invalid credentials."});
+                res.json({status: 402, message: "Invalid password."});
             }
         }
     });
@@ -51,6 +51,23 @@ module.exports = (sequelize) => {
             if (!newUser) res.json({status: 500, message: "Cannot create new user. Internal server error."});
             else res.json({status: 200, user: newUser});
         }
+    })
+
+    router.post("/api/change-password", middlewares.verifyToken, async (req, res) => {
+        const { currentPassword, newPassword } = req.body
+        const { machineCode } = req.user
+
+		const user = await Employee.findOne({where: {machineCode}})
+
+		const match = bcrypt.compareSync(currentPassword, user.dataValues.password);
+		if (match) {
+			const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
+			const hash = bcrypt.hashSync(newPassword, salt);
+			await Employee.update({password: hash}, {where: {machineCode}})
+			res.json({status: 200, message: "Password updated."})
+		} else {
+			res.json({status: 402, message: "Old password incorrect."});
+		}
     })
 
     return router;

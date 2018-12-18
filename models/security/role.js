@@ -26,6 +26,7 @@ const permissions = {
 		profile: { canAccess: true },
 		leave: { canAccess: true },
 		attendance: { canAccess: true },
+		myAttendance: { canAccess: true },
 	},
 	leave: {
 		canAccess: true,

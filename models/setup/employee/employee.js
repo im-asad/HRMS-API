@@ -69,7 +69,7 @@ module.exports = sequelize => {
 		},
 	})
 
-	Employee.associate = function (models) {
+	Employee.associate = function(models) {
 		Employee.belongsTo(models.Designation, {
 			foreignKey: 'designation_id',
 			onDelete: 'CASCADE',
@@ -120,6 +120,10 @@ module.exports = sequelize => {
 		})
 		Employee.belongsTo(models.SubLeavingReason, {
 			foreignKey: 'subLeavingReason_id',
+			onDelete: 'CASCADE',
+		})
+		Employee.belongsTo(models.Role, {
+			foreignKey: 'role_id',
 			onDelete: 'CASCADE',
 		})
 		Employee.belongsTo(models.Employee, {

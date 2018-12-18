@@ -42,7 +42,7 @@ module.exports = (sequelize, transporter) => {
             return res.sendStatus(429)
         }
         await employee.update({
-            leaveBalance: parseInt(employee.leaveBalance) - 1
+            leaveBalance: parseFloat(employee.leaveBalance) - 1
         });
 
         models.LeaveRequest.create(leave)
@@ -89,7 +89,7 @@ module.exports = (sequelize, transporter) => {
 
 
             await employee.update({
-                leaveBalance: parseInt(employee.leaveBalance) + 1,
+                leaveBalance: parseFloat(employee.leaveBalance) + 1,
             })
             console.log(employee.email);
             let decline_html = "<p>Hello ${name}</p> <p>Your leave request with id ${id} was declined.</p>";

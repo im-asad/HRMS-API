@@ -120,8 +120,6 @@ module.exports = (sequelize, transporter) => {
     router.put('/request', async (req, res) => {
         // TO DO: admin middleware
 
-
-
         // let approver_id = req.user.machineCode
         let approver_id = "AD-123";
 

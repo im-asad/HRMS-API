@@ -16,11 +16,16 @@ module.exports = (sequelize, transporter) => {
 		})
 	})
 
-
+	router.get('/employee-names', async (req, res) => {
+		let employees = await Employee.findAll({attributes: ['machineCode', 'employeeName']});
+		console.log(employees)
+		res.json({
+			status: 200,
+			employees
+		})
+	})
 
 	router.post('/create', async (req, res) => {
-
-		console.log("IN THe")
 		// TO DO: check permission
 		try {
 			let data = req.body.data
@@ -37,6 +42,8 @@ module.exports = (sequelize, transporter) => {
 
 			const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
 			const hash = bcrypt.hashSync(password, salt);
+
+			console.log(password)
 
 			data.password = hash;
 

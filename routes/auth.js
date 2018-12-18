@@ -33,8 +33,14 @@ module.exports = sequelize => {
 					machineCode,
 					role,
 				}
+
+				const employee = await Employee.findOne({
+					where: { machineCode },
+					include: [{ all: true }],
+				})
+
 				const token = jwt.sign({ tokenUser }, auth_secret)
-				res.json({ status: 200, token, request_user: tokenUser })
+				res.json({ status: 200, token, request_user: employee })
 			} else {
 				res.json({ status: 402, message: 'Invalid password.' })
 			}

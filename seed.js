@@ -1,5 +1,6 @@
 const faker = require('faker')
 const bcrypt = require('bcrypt-nodejs')
+const adminPermission = require('./permissions/admin.json')
 module.exports = async db => {
 	const {
 		Branch,
@@ -42,10 +43,11 @@ module.exports = async db => {
 
 	await Role.bulkCreate([
 		{
-			roleName: 'Supervisor',
+			roleName: 'Admin',
+			permissions: JSON.stringify(adminPermission),
 		},
 		{
-			roleName: 'Admin',
+			roleName: 'Supervisor',
 		},
 		{
 			roleName: 'Developer',
@@ -527,7 +529,7 @@ module.exports = async db => {
 			leaveBalance: 5,
 			machineCode: 'AD-124',
 			employeeName: 'Daniyal Khalid',
-			employeeType: 'supervisor',
+			role_id: 2,
 			maritalStatus: 'Married',
 			gender: 'Male',
 			birthDate: '1997-10-06',
@@ -559,7 +561,7 @@ module.exports = async db => {
 			leaveBalance: 0.5,
 			machineCode: 'AD-123',
 			employeeName: 'John Doe',
-			employeeType: 'admin',
+			role_id: 1,
 			maritalStatus: 'Single',
 			gender: 'Male',
 			birthDate: '1997-10-06',
@@ -587,7 +589,8 @@ module.exports = async db => {
 		},
 	])
 
-	await Attendance.bulkCreate([{
+	await Attendance.bulkCreate([
+		{
 			actualInDate: '2018-12-10',
 			actualOutDate: '2018-12-10',
 			inDate: '2018-12-10',

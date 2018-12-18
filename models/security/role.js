@@ -19,52 +19,28 @@ module.exports = sequelize => {
 }
 
 const permissions = {
-	employees: {
-		canAccess: true,
-	},
-	birthdays: {
-		canAccess: true,
-	},
+	employees: { canAccess: true },
+	birthdays: { canAccess: true },
 	home: {
 		canAccess: true,
-		profile: {
-			canAccess: true,
-		},
-		leave: {
-			canAccess: true,
-		},
-		attendance: {
-			canAccess: true,
-		},
+		profile: { canAccess: true },
+		leave: { canAccess: true },
+		attendance: { canAccess: true },
 	},
 	leave: {
 		canAccess: true,
-		leavePolicy: {
-			canAccess: true,
-		},
-		leaveRequest: {
-			canAccess: true,
-		},
-		leaveApproval: {
-			canAccess: true,
-		},
+		leavePolicy: { canAccess: true },
+		leaveRequest: { canAccess: true },
+		leaveApproval: { canAccess: true },
 	},
 	setup: {
 		canAccess: true,
 		company: {
 			canAccess: true,
-			weeklyOffDays: {
-				canAccess: true,
-			},
-			shift: {
-				canAccess: true,
-			},
-			gazettedHolidays: {
-				canAccess: true,
-			},
-			attendanceFlag: {
-				canAccess: true,
-			},
+			weeklyOffDays: { canAccess: true },
+			shift: { canAccess: true },
+			gazettedHolidays: { canAccess: true },
+			attendanceFlag: { canAccess: true },
 		},
 		employee: {
 			canAccess: true,
@@ -98,29 +74,15 @@ const permissions = {
 	},
 	attendance: {
 		canAccess: true,
-		viewAttendance: {
-			canAccess: true,
-		},
-		employeeShift: {
-			canAccess: true,
-		},
-		attendanceRequestApproval: {
-			canAccess: true,
-		},
-		attendanceRequest: {
-			canAccess: true,
-		},
+		viewAttendance: { canAccess: true },
+		employeeShift: { canAccess: true },
+		attendanceRequestApproval: { canAccess: true },
+		attendanceRequest: { canAccess: true },
 	},
 	security: {
 		canAccess: true,
-		manageRights: {
-			canAccess: true,
-		},
-		manageRoles: {
-			canAccess: true,
-		},
-		userProfile: {
-			canAccess: true,
-		},
+		manageRights: { canAccess: true },
+		manageRoles: { canAccess: true },
+		userProfile: { canAccess: true },
 	},
 }

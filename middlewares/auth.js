@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
+
 module.exports = {
+	// middleware to verify JWT token and load user's data from the token
     verifyToken: (req, res, next) => {
         const bearerHeader = req.headers["authorization"];
         if (bearerHeader) {

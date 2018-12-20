@@ -8,6 +8,7 @@ module.exports = (sequelize, transporter) => {
 	const models = require('../../models')(sequelize)
 	const Employee = models.Employee
 
+	// get list of employees
 	router.get('/', async (req, res) => {
 		let employees = await Employee.findAll({})
 		res.json({
@@ -16,6 +17,7 @@ module.exports = (sequelize, transporter) => {
 		})
 	})
 
+	// get list of names of employees
 	router.get('/employee-names', async (req, res) => {
 		let employees = await Employee.findAll({attributes: ['machineCode', 'employeeName']});
 		console.log(employees)
@@ -25,8 +27,9 @@ module.exports = (sequelize, transporter) => {
 		})
 	})
 
+	// create a new employee
 	router.post('/create', async (req, res) => {
-		// TO DO: check permission
+		
 		try {
 			let data = req.body.data
 			Object.keys(data).forEach(element => {
@@ -34,12 +37,13 @@ module.exports = (sequelize, transporter) => {
 					data[element] = null
 				}
 			})
-
+			// generate random password
 			const password = randomstring.generate({
 				length: 10,
 				charset: 'alphabetic'
 			});
 
+			// hash password
 			const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUNDS));
 			const hash = bcrypt.hashSync(password, salt);
 
@@ -49,6 +53,7 @@ module.exports = (sequelize, transporter) => {
 
 			const createdEmployee = await Employee.create(data)
 
+			// create and send mail to employee
 			const { employeeName, username } = createdEmployee.dataValues;
 			let html = `<p style="font-family: 'monospace', font-size: 14px">Hello ${employeeName}, your account is all setup. You can use the following credentials to login.</p>` +
 				`<div style="font-family: 'Courier New'"><b>Username: </b> ${username}</>` +
@@ -76,6 +81,7 @@ module.exports = (sequelize, transporter) => {
 		}
 	})
 
+	// Edit details of employee
 	router.put('/', async (req, res) => {
 		const employeeDetails = Object.assign({}, req.body)
 		const machineCode = req.body.machineCode
@@ -119,6 +125,7 @@ module.exports = (sequelize, transporter) => {
 		}
 	})
 
+	// Get form details of employee
 	router.get('/formData', async (req, res) => {
 		let promises = []
 		promises.push(models.City.findAll())
@@ -145,6 +152,7 @@ module.exports = (sequelize, transporter) => {
 		return res.json(values)
 	})
 
+	// Get profile of employee
 	router.get('/profile/:code', async (req, res) => {
 		try {
 			let empData = await Employee.findOne({
@@ -163,6 +171,9 @@ module.exports = (sequelize, transporter) => {
 		}
 	})
 
+	/*
+		Route to create a new shift 
+	*/
 	router.post('/shifts/create', async (req, res) => {
 		let obj = req.body.data
 		let shiftDetails = obj.shiftDetails
@@ -182,6 +193,9 @@ module.exports = (sequelize, transporter) => {
 		return res.sendStatus(200)
 	})
 
+	/*
+		Route to update a shift
+	*/
 	router.post('/shifts/update', async (req, res) => {
 		let obj = req.body.data
 		let shiftDetails = obj.shiftDetails
@@ -210,6 +224,9 @@ module.exports = (sequelize, transporter) => {
 		return res.sendStatus(200)
 	})
 
+	/*
+		Route to fetch shifts
+	*/
 	router.post('/shifts/read', async (req, res) => {
 		sequelize
 			.query('SELECT * FROM shifts INNER JOIN shiftFlags USING (shift_id) ORDER BY shift_id ', {
@@ -242,8 +259,8 @@ module.exports = (sequelize, transporter) => {
 			})
 	})
 
+	// fetch default shifts of an employee
 	router.get('/defaultshifts/:machineCode/', async (req, res) => {
-		// TO DO: check admin or machineCode
 
 		let defaultShifts = await models.DefaultShift.findAll({
 			where: {
@@ -257,8 +274,9 @@ module.exports = (sequelize, transporter) => {
 		return res.json(defaultShifts)
 	})
 
+
+	// Route to delete  a default shift
 	router.delete('/defaultshifts', async (req, res) => {
-		// TO DO: check admin
 
 		let deletedShift = await models.DefaultShift.find({
 			where: {
@@ -271,7 +289,6 @@ module.exports = (sequelize, transporter) => {
 				defaultShift_id: req.body.defaultShift_id
 			}
 		})
-		// TO DO: send mail
 		await models.Attendance.destroy({
 			where: {
 				machineCode: deletedShift.machineCode,
@@ -285,25 +302,27 @@ module.exports = (sequelize, transporter) => {
 		res.sendStatus(200)
 	})
 
+	// route to create a new default shift
 	router.post('/defaultshifts', async (req, res) => {
-		// TO DO: check admin
+		
 		models.DefaultShift.create(req.body.data)
 		attendanceController.generateMonthlyShiftForEmployee(
 			req.body.data.shift_id,
 			req.body.data.machineCode
 		) 
 
-		// TO DO: send mail
+	
 		res.sendStatus(200)
 	})
 
+	// route to add custom shift
 	router.post('/customshift', async (req, res) => {
 		attendanceController.addCustomShift(req.body.data.shift_id, req.body.data.machineCode, req.body.date)
 	})
 
-	router.get("/test", async (req, res) => {
-		attendanceController.processWeeklyAttendance();
-	})
+	// router.get("/test", async (req, res) => {
+	// 	attendanceController.processWeeklyAttendance();
+	// })
 
 
 	return router

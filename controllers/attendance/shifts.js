@@ -2,10 +2,15 @@ const moment = require('moment-business-days')
 const Op = require('sequelize').Op
 
 module.exports = (sequelize) => {
-	const models = require('../../models')(sequelize)
+const models = require('../../models')(sequelize)
 
 
 
+	/*
+		Function to process single attendance entry. Determines if the employee was present, late or absent
+		Deducts leave credits if the employee is late or absent as defined in the leave policy.
+		This is a helper method used by processWeeklyAttendance function.
+	*/
 	let processAttendance = async attendance_id => {
 		let leavePolicy = await models.LeavePolicy.findOne({
 			where: {
@@ -18,7 +23,7 @@ module.exports = (sequelize) => {
 				attendance_id: attendance_id,
 			},
 			include: [models.Shift],
-		})
+		});
 
 
 
@@ -81,6 +86,10 @@ module.exports = (sequelize) => {
 		return
 	}
 
+	/*
+		Helper function used by processAttendance. Deducts leave balance equal to deductAmount
+		from employee with machine code machineCode
+	*/
 	let deductLeaveCredit = async (machineCode, deductAmount) => {
 		let employee = await models.Employee.findOne({
 			where: {
@@ -94,7 +103,10 @@ module.exports = (sequelize) => {
 
 	}
 
-
+	/*
+		helper function used by generateMonthlyShifts. Generates current month's attendance entries
+		for the employee with the machine code machineCode 
+	*/
 	async function generateMonthlyDefaultShiftsForEmployee(machineCode) {
 		let defaultShifts = await models.DefaultShift.findAll({
 			where: {
@@ -127,7 +139,8 @@ module.exports = (sequelize) => {
 	}
 
 	return {
-
+		// generates the monthly attendance for an employee according to all the assigned default
+		// shifts of that employee
 		generateMonthlyShifts: async ()=>{
 			let employees = models.findAll({});
 
@@ -136,7 +149,10 @@ module.exports = (sequelize) => {
 			})
 		}, 
 		
-
+		/*
+			Generates the montly attendance for an employee with machine code machineCode for a particular
+			shift with id shift_id
+		*/
 		generateMonthlyShiftForEmployee: async (shift_id, machineCode) => {
 			var startDate = moment(new Date()).subtract(1, 'days')
 
@@ -166,6 +182,11 @@ module.exports = (sequelize) => {
 			}
 		},
 
+		/*
+			Adds a single attendance entry for an employee with machine code machineCode 
+			having a shift with id shift_id
+			on date
+		*/
 		addCustomShift: (shift_id, machineCode, date) => {
 			date = moment(date)
 			let nextDay = moment(date)
@@ -180,6 +201,11 @@ module.exports = (sequelize) => {
 			})
 		},
 
+		/*
+			Processes all of last week's attendance.
+			Determines the status for each attendance entry. (Absent, Leave, Late, Present)
+			Also deducts leave credits in case employee was not on time. 
+		*/
 		processWeeklyAttendance: async () => {
 			let currentDate = moment()
 			let weekAgo = moment().subtract(7, 'days')

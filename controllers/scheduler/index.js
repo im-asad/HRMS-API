@@ -3,9 +3,12 @@ const Op = require('sequelize').Op
 const schedule = require('node-schedule');
 
 module.exports = sequelize => {
+
     const models = require('../../models')(sequelize)
     const attendanceController = require("../attendance/shifts")(sequelize);
 
+    // function to add the specified monthly credits to each employee
+    // this function is scheduled to run every Sunday afternoon
    async  function addMonthlyLeaveCredits() {
         let leavePolicy = await models.LeavePolicy.findOne({
             where: {
@@ -23,6 +26,8 @@ module.exports = sequelize => {
     }
 
     
+
+    // schedule monthly and weekly processes
     schedule.scheduleJob({month: 0 , date: 1,hour: 0, minute: 0}, addMonthlyLeaveCredits);
     schedule.scheduleJob({month: 1, date: 1 ,hour: 0, minute: 0}, addMonthlyLeaveCredits);
     schedule.scheduleJob({month: 2, date: 1 ,hour: 0, minute: 0}, addMonthlyLeaveCredits);

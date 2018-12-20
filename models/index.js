@@ -1,3 +1,4 @@
+// combine all models into a single object
 module.exports = sequelize => {
 	var setupModels = require('./setup/')(sequelize);
 	var leaveModels = require('./leave/')(sequelize);

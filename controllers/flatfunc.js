@@ -1,3 +1,5 @@
+// custom function to flatten an object by at most 2 levels
+
 module.exports = (obj) => {
     let flattenedObj = {};
     const firstLevelArr = Object.keys(obj);

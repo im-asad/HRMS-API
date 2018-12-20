@@ -1,4 +1,5 @@
 module.exports = (models) => ({
+    // general function to delete a model "model" with primary key "id_key" having a value of "id"
     execute: async (model, id, id_key)=> {
         try {
          whereClause = {};

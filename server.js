@@ -1,3 +1,4 @@
+// Initialization
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -8,6 +9,7 @@ const seedDB = require('./seed')
 
 dotenv.config()
 
+// set up node mailer
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
@@ -18,6 +20,7 @@ const transporter = nodemailer.createTransport({
 	},
 })
 
+// load environment variables
 const {
 	DB_NAME,
 	DB_USERNAME,
@@ -28,12 +31,14 @@ const {
 	CLOUDINARY_API_SECRET,
 } = process.env
 
+// initialize sequelize connection
 const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 	host: DB_HOST,
 	dialect: 'mysql',
 	operatorsAliases: false,
 })
 
+// Setup CORS access
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*')
 	res.header(
@@ -43,6 +48,7 @@ app.use(function(req, res, next) {
 	next()
 })
 
+// configure cloudinary
 cloudinary.config({
 	cloud_name: CLOUDINARY_CLOUD_NAME,
 	api_key: CLOUDINARY_API_KEY,
@@ -60,7 +66,7 @@ app.use(
 		extended: true,
 	})
 )
-
+// apply middleware and routes
 app.use(bodyParser.json())
 app.use(auth_routes)
 app.use(crud_routes)
@@ -68,6 +74,7 @@ app.use('/attendance', attendance_routes)
 app.use('/employee', employee_routes)
 app.use('/leave', leave_routes)
 
+// load and sync ORM models
 require('./models/relationships.js')(sequelize)
 sequelize
 	.sync({
@@ -76,9 +83,9 @@ sequelize
 	.then(() => {
 		const models = require('./models/')(sequelize)
 		seedDB(models)
+		// schedule tasks
 		require("./controllers/scheduler/index")(sequelize);
 	})
-// middleware for protected routes
 app.listen(2200, () => {
 	console.log('API Server Running.')
 })

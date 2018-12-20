@@ -5,7 +5,8 @@ module.exports = sequelize => {
 	const CRUD = require('../../controllers/crud/')(sequelize)
 	const models = require("../../models/")(sequelize);
 
-	
+	// hander for general CRUD requests
+	// The details of the CRUD methods are in the crud controller files
 	let handleRequest = async (req, res) => {
 		const entity = req.params.entity
 		const operation = req.params.operation
@@ -49,6 +50,7 @@ module.exports = sequelize => {
 				break
 
 			case 'read':
+				// read entity
 				let records = await CRUD.read.execute(entity)
 				if (records !== -1) {
 					return res.json(records)
@@ -64,6 +66,7 @@ module.exports = sequelize => {
 	router.post('/CRUD/:module/:entity/:operation', handleRequest)
 
 
+	// Route to fetch select options
 	router.post("/select", async (req,res)=>{
 		let obj = req.body;
 		let promises = [];
